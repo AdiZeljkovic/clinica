@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-red: #e5252a;
+  --color-brand-red-dark: #c91d22;
+  --color-brand-black: #111111;
+  --color-brand-gray: #4B4B4B;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+  color: #111111;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* ── Diagonal clip helpers ── */
+.clip-diagonal-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+.clip-diagonal-top {
+  clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+}
+.clip-diagonal-both {
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+}
+
+/* ── Marquee / ticker ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-inner { animation: marquee 22s linear infinite; }
+.marquee-inner:hover { animation-play-state: paused; }
+
+/* ── Counter animation ── */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Floating animation ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-10px) rotate(1deg); }
+  66%       { transform: translateY(-5px) rotate(-1deg); }
+}
+.float { animation: float 6s ease-in-out infinite; }
+
+/* ── Pulse ring ── */
+@keyframes pulseRing {
+  0%   { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid #e5252a;
+  animation: pulseRing 2s ease-out infinite;
+}
+
+/* ── Button ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 2rem;
+  height: 3.5rem;
+  background: #e5252a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 1rem;
+  box-shadow: 0 12px 32px rgba(229,37,42,0.35);
+  transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-primary:hover {
+  background: #c91d22;
+  box-shadow: 0 18px 48px rgba(229,37,42,0.45);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 2rem;
+  height: 3.5rem;
+  background: transparent;
+  color: #111;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 1rem;
+  border: 2px solid #e2e8f0;
+  transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-outline:hover {
+  border-color: #e5252a;
+  color: #e5252a;
+}
+
+/* ── Section label ── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e5252a;
+  margin-bottom: 1.25rem;
+}
+.section-label::before, .section-label::after {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background: #e5252a;
+  flex-shrink: 0;
+}
+.section-label.label-white {
+  color: rgba(255,255,255,0.8);
+}
+.section-label.label-white::before,
+.section-label.label-white::after {
+  background: rgba(255,255,255,0.4);
+}
+
+/* ── Card hover lift ── */
+.card-hover {
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 32px 64px rgba(229,37,42,0.16);
+}

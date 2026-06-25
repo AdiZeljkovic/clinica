@@ -1,0 +1,14 @@
+node_modules/
+build/
+dist/
+dist-admin/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+/slike/
+/uploads/
+*.tif
+/*.png
+/*.svg
