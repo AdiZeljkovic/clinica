@@ -1,24 +1,10 @@
-import { useRef } from 'react';
-import { ChevronDown, Mail, Phone } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
+import { Mail, Phone } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
 import PageHero from '../components/PageHero';
 import PageCTA from '../components/PageCTA';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { Reveal, StaggerGroup, StaggerItem, AccordionItem } from '../components/motion';
 
 const faqs = [
   { question: 'Jesu li vaši proizvodi 100% prirodni?', answer: 'Da, svi Bioclinica SWP proizvodi napravljeni su od pažljivo odabranih prirodnih sastojaka i ne sadrže umjetne dodatke, boje ni konzervanse koje tijelo ne može preraditi.' },
@@ -89,24 +75,15 @@ export default function FaqPage() {
               </div>
 
               {/* Accordioni */}
-              <div className="lg:col-span-8 flex flex-col gap-3">
+              <StaggerGroup stagger={0.05} className="lg:col-span-8 flex flex-col gap-3">
                 {faqs.map((faq, i) => (
-                  <Reveal key={i} delay={i * 0.04}>
-                    <details className="group rounded-[1.25rem] border border-gray-100 bg-white overflow-hidden hover:border-[#e5252a]/20 transition-colors duration-200"
-                      style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
-                      <summary className="flex items-center justify-between px-6 sm:px-7 py-5 sm:py-6 cursor-pointer list-none font-bold text-[14px] sm:text-[15px] text-[#111] hover:text-[#e5252a] transition-colors">
-                        <span className="pr-4 leading-snug">{faq.question}</span>
-                        <span className="w-8 h-8 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 group-open:bg-[#e5252a]/8 group-open:border-[#e5252a]/20 group-open:-rotate-180 transition-all duration-300">
-                          <ChevronDown size={15} className="text-gray-400 group-open:text-[#e5252a] transition-colors" />
-                        </span>
-                      </summary>
-                      <div className="px-6 sm:px-7 pb-6 pt-1 text-[14px] text-gray-500 leading-[1.8] font-normal border-t border-gray-100">
-                        {faq.answer}
-                      </div>
-                    </details>
-                  </Reveal>
+                  <StaggerItem key={i} y={20}>
+                    <AccordionItem question={faq.question} defaultOpen={i === 0}>
+                      {faq.answer}
+                    </AccordionItem>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
 
             </div>
           </div>

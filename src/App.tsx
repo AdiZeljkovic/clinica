@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import ProductPage from './pages/ProductPage';
 import CategoryPage from './pages/CategoryPage';
@@ -16,10 +17,19 @@ import ImpressumPage from './pages/ImpressumPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 
-export default function App() {
+/* Instant scroll-to-top na promjenu rute (hash linkovi preskaču).
+   Bez page-level fade-a — remount cijele stranice iz opacity:0 bljesne;
+   ulazne animacije rade same stranice (PageHero, revealovi) */
+function PageShell() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) return; // anchor linkovi (/#proizvodi) rade svoj scroll
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [pathname, hash]);
+
   return (
-    <Router>
-      <Routes>
+    <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/products" element={<CategoryPage />} />
@@ -32,7 +42,14 @@ export default function App() {
         <Route path="/impressum" element={<ImpressumPage />} />
         <Route path="/privatnost" element={<PrivacyPage />} />
         <Route path="/uvjeti" element={<TermsPage />} />
-      </Routes>
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <PageShell />
     </Router>
   );
 }

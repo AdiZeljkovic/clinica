@@ -1,25 +1,10 @@
-import { useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { ShieldCheck, Leaf, FlaskConical, Award, CheckCircle2 } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
 import PageHero from '../components/PageHero';
 import PageCTA from '../components/PageCTA';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { Reveal, StaggerGroup, StaggerItem, Parallax, AnimatedCounter, BlurImage } from '../components/motion';
 
 export default function AboutPage() {
   return (
@@ -46,19 +31,23 @@ export default function AboutPage() {
 
               <Reveal className="order-2 lg:order-1">
                 <div className="relative rounded-[2rem] overflow-hidden" style={{ aspectRatio: '4/5' }}>
-                  <img
-                    src="/slike/background-2.png"
-                    alt="Prirodni sastojci"
-                    className="w-full h-full object-cover object-left"
-                  />
+                  <Parallax speed={24} className="absolute inset-[-24px]">
+                    <BlurImage
+                      src="/slike/background-2.png"
+                      alt="Prirodni sastojci"
+                      className="w-full h-full object-cover object-left"
+                    />
+                  </Parallax>
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 50%)' }} />
-                  <div className="absolute bottom-8 right-8 bg-white rounded-2xl px-6 py-4 flex items-center gap-4"
+                  <div className="float absolute bottom-8 right-8 bg-white rounded-2xl px-6 py-4 flex items-center gap-4"
                     style={{ boxShadow: '0 16px 48px rgba(0,0,0,0.12)' }}>
                     <div className="w-12 h-12 bg-[#e5252a] rounded-xl flex items-center justify-center flex-shrink-0">
                       <Award size={22} className="text-white" />
                     </div>
                     <div>
-                      <p className="font-black text-[#111] text-[1.75rem] leading-none" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>15+</p>
+                      <p className="font-black text-[#111] text-[1.75rem] leading-none" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                        <AnimatedCounter to={15} suffix="+" />
+                      </p>
                       <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Godina iskustva</p>
                     </div>
                   </div>
@@ -83,19 +72,21 @@ export default function AboutPage() {
                   </p>
                 </Reveal>
 
-                <Reveal delay={0.1} className="flex flex-col gap-3 pt-4">
+                <StaggerGroup stagger={0.08} className="flex flex-col gap-3 pt-4">
                   {[
                     'Samo provjereni i prirodni sastojci.',
                     'Proizvodnja pod strogim smjernicama kvalitete.',
                     'Dizajnirano za maksimalnu apsorpciju.',
                     'Inovacije temeljene na znanstvenim istraživanjima.',
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <CheckCircle2 size={17} className="text-[#e5252a] flex-shrink-0" />
-                      <p className="text-[14px] sm:text-[15px] font-semibold text-[#111]">{item}</p>
-                    </div>
+                    <StaggerItem key={i} y={12}>
+                      <div className="flex items-center gap-3">
+                        <CheckCircle2 size={17} className="text-[#e5252a] flex-shrink-0" />
+                        <p className="text-[14px] sm:text-[15px] font-semibold text-[#111]">{item}</p>
+                      </div>
+                    </StaggerItem>
                   ))}
-                </Reveal>
+                </StaggerGroup>
               </div>
             </div>
           </div>
@@ -116,13 +107,13 @@ export default function AboutPage() {
               </h2>
             </Reveal>
 
-            <div className="grid sm:grid-cols-3 gap-5">
+            <StaggerGroup stagger={0.08} className="grid sm:grid-cols-3 gap-5">
               {[
                 { Icon: Leaf, title: 'Prirodno porijeklo', desc: 'Koristimo samo najkvalitetnije biljne ekstrakte čija je učinkovitost potvrđena tradicijom i znanošću.' },
                 { Icon: ShieldCheck, title: 'Kontrola kvalitete', desc: 'Svi naši proizvodi prolaze stroge analize i kontrole kako bismo osigurali sigurnost i čistoću.' },
                 { Icon: FlaskConical, title: 'Inovativne formule', desc: 'Spajamo tradicionalno znanje s modernom farmaceutskom tehnologijom za najbolje rezultate.' },
-              ].map(({ Icon, title, desc }, i) => (
-                <Reveal key={title} delay={i * 0.08}>
+              ].map(({ Icon, title, desc }) => (
+                <StaggerItem key={title}>
                   <div className="group flex flex-col p-7 sm:p-8 rounded-[1.5rem] bg-white border border-gray-100 hover:shadow-[0_8px_40px_rgba(229,37,42,0.10)] hover:-translate-y-1 transition-all duration-300 cursor-default h-full">
                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-[#e5252a]"
                       style={{ background: 'rgba(229,37,42,0.08)' }}>
@@ -131,9 +122,9 @@ export default function AboutPage() {
                     <h3 className="font-black text-[#111] text-[16px] sm:text-[17px] mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{title}</h3>
                     <p className="text-gray-400 text-[13px] sm:text-[14px] leading-relaxed font-normal">{desc}</p>
                   </div>
-                </Reveal>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
           </div>
         </section>
 

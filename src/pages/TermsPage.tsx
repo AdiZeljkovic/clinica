@@ -1,22 +1,9 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
+import { motion } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { Reveal } from '../components/motion';
 
 const sections = [
   {

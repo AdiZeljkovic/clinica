@@ -1,23 +1,9 @@
-import { useRef } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
 import PageHero from '../components/PageHero';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { Reveal, StaggerGroup, StaggerItem } from '../components/motion';
 
 const INFO = [
   {
@@ -117,7 +103,7 @@ export default function ContactPage() {
                         className="px-5 py-4 rounded-xl bg-[#fafafa] border border-gray-200 focus:outline-none focus:border-[#e5252a] focus:ring-2 focus:ring-[#e5252a]/10 transition-all text-[14px] font-medium text-[#111] resize-none" />
                     </div>
                     <button type="submit"
-                      className="h-12 mt-2 bg-[#e5252a] hover:bg-[#c91d22] text-white font-bold rounded-xl transition-all text-[13px] uppercase tracking-widest flex items-center justify-center gap-3 group"
+                      className="h-12 mt-2 bg-[#e5252a] hover:bg-[#c91d22] active:scale-[0.98] text-white font-bold rounded-xl transition-all text-[13px] uppercase tracking-widest flex items-center justify-center gap-3 group"
                       style={{ boxShadow: '0 8px 24px rgba(229,37,42,0.3)' }}>
                       <Send size={15} className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                       Pošalji poruku
@@ -127,24 +113,22 @@ export default function ContactPage() {
               </Reveal>
 
               {/* Info kartice */}
-              <div className="lg:col-span-5 flex flex-col gap-4">
-                {INFO.map(({ Icon, label, content }, i) => (
-                  <Reveal key={label} delay={i * 0.06}>
+              <StaggerGroup stagger={0.06} className="lg:col-span-5 flex flex-col gap-4">
+                {INFO.map(({ Icon, label, content }) => (
+                  <StaggerItem key={label} y={20}>
                     <div className="group flex items-start gap-5 p-6 rounded-[1.25rem] bg-white border border-gray-100 hover:border-[#e5252a]/20 hover:shadow-[0_4px_32px_rgba(229,37,42,0.08)] transition-all duration-300">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-300"
-                        style={{ background: 'rgba(229,37,42,0.08)' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e5252a'; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(229,37,42,0.08)'; }}>
-                        <Icon size={19} className="text-[#e5252a]" />
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0
+                        bg-[#e5252a]/8 group-hover:bg-[#e5252a] transition-colors duration-300">
+                        <Icon size={19} className="text-[#e5252a] group-hover:text-white transition-colors duration-300" />
                       </div>
                       <div className="min-w-0">
                         <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">{label}</p>
                         <div className="text-[14px] leading-relaxed text-gray-600">{content}</div>
                       </div>
                     </div>
-                  </Reveal>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
 
             </div>
           </div>

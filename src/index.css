@@ -24,17 +24,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
 }
 
-/* ── Diagonal clip helpers ── */
-.clip-diagonal-bottom {
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-}
-.clip-diagonal-top {
-  clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
-}
-.clip-diagonal-both {
-  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-}
-
 /* ── Marquee / ticker ── */
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -42,12 +31,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .marquee-inner { animation: marquee 22s linear infinite; }
 .marquee-inner:hover { animation-play-state: paused; }
-
-/* ── Counter animation ── */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 
 /* ── Floating animation ── */
 @keyframes float {
@@ -150,4 +133,14 @@ h1, h2, h3, h4, h5, h6 {
 .card-hover:hover {
   transform: translateY(-8px);
   box-shadow: 0 32px 64px rgba(229,37,42,0.16);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  html, body { scroll-behavior: auto; }
+  .marquee-inner,
+  .float,
+  .pulse-ring::after {
+    animation: none;
+  }
 }

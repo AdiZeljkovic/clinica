@@ -1,24 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageHero from '../components/PageHero';
 import { api } from '../lib/api';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { StaggerGroup, StaggerItem, BlurImage } from '../components/motion';
 
 export default function CategoryPage() {
   const { id } = useParams<{ id?: string }>();
@@ -63,17 +50,17 @@ export default function CategoryPage() {
           <div className="max-w-[88rem] mx-auto px-5 sm:px-14 xl:px-20">
 
             {categoryProducts.length > 0 ? (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {categoryProducts.map((product, i) => (
-                  <Reveal key={product.id} delay={i * 0.07}>
+              <StaggerGroup stagger={0.07} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {categoryProducts.map((product) => (
+                  <StaggerItem key={product.id}>
                     <Link to={`/product/${product.id}`}
                       className="group flex flex-col rounded-[1.5rem] overflow-hidden bg-white border border-gray-100 hover:shadow-[0_8px_40px_rgba(229,37,42,0.12)] hover:-translate-y-1 transition-all duration-300 h-full">
 
                       <div className="relative bg-[#f8f7f5] overflow-hidden flex items-center justify-center p-6"
                         style={{ aspectRatio: '4/3' }}>
                         {product.imageUrl
-                          ? <img src={product.imageUrl} alt={product.name}
-                              className="max-w-full max-h-full object-contain group-hover:scale-[1.04] transition-transform duration-500" />
+                          ? <BlurImage src={product.imageUrl} alt={product.name}
+                              className="max-w-full max-h-full object-contain group-hover:scale-[1.04]" />
                           : <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
                               <span className="text-gray-400 text-2xl font-black">B</span>
                             </div>
@@ -98,9 +85,9 @@ export default function CategoryPage() {
                         </div>
                       </div>
                     </Link>
-                  </Reveal>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
             ) : (
               <div className="text-center py-24 rounded-[1.5rem] border border-gray-100 bg-[#fafafa]">
                 <p className="text-[16px] font-bold text-gray-400">Nema proizvoda u ovoj kategoriji.</p>

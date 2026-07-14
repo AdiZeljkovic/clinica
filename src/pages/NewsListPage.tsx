@@ -1,25 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
 import PageHero from '../components/PageHero';
 import { api } from '../lib/api';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { StaggerGroup, StaggerItem, BlurImage } from '../components/motion';
 
 export default function NewsListPage() {
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
@@ -50,16 +37,16 @@ export default function NewsListPage() {
             {blogPosts.length === 0 ? (
               <div className="text-center py-24 text-gray-400 text-[15px] font-semibold">Nema objavljenih članaka.</div>
             ) : (
-              <div className="grid md:grid-cols-3 gap-6">
-                {blogPosts.map((post, i) => (
-                  <Reveal key={post.id} delay={i * 0.06}>
+              <StaggerGroup stagger={0.06} className="grid md:grid-cols-3 gap-6">
+                {blogPosts.map((post) => (
+                  <StaggerItem key={post.id}>
                     <Link to={`/news/${post.id}`}
                       className="group flex flex-col h-full rounded-[1.5rem] overflow-hidden border border-gray-100 bg-white hover:shadow-[0_16px_56px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-400">
 
                       <div className="relative overflow-hidden bg-[#f5f5f5]" style={{ aspectRatio: '16/9' }}>
                         {post.imageUrl
-                          ? <img src={post.imageUrl} alt={post.title}
-                              className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-700" />
+                          ? <BlurImage src={post.imageUrl} alt={post.title}
+                              className="w-full h-full object-cover group-hover:scale-[1.06]" />
                           : <div className="w-full h-full bg-[#e8edec]" />
                         }
                         <span className="absolute top-4 left-4 bg-[#e5252a] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -88,9 +75,9 @@ export default function NewsListPage() {
                         </div>
                       </div>
                     </Link>
-                  </Reveal>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
             )}
           </div>
         </section>

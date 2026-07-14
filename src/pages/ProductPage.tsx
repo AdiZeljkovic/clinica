@@ -1,23 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ChevronRight, ChevronDown, ArrowRight, ArrowLeft } from 'lucide-react';
-import { motion, useInView, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { api } from '../lib/api';
-
-function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y: 32 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
+import { Reveal, StaggerGroup, StaggerItem, ParallaxBg, BlurImage } from '../components/motion';
 
 const SHOPS = [
   { name: 'Sanolabor', color: '#5C2D91' },
@@ -30,7 +18,7 @@ export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
   const [related, setRelated] = useState<any[]>([]);
-  const [showShops, setShowShops] = useState(false);
+  const [showShops, setShowShops] = useState(true);
   const [openDetail, setOpenDetail] = useState<number | null>(null);
 
   useEffect(() => {
@@ -96,11 +84,13 @@ export default function ProductPage() {
 
               {/* Lijevo — slike */}
               <div className="flex flex-col gap-5">
-                <div className="rounded-[1.75rem] overflow-hidden bg-[#f5f5f5] flex items-center justify-center p-12"
-                  style={{ aspectRatio: '1/1' }}>
-                  <img src={product.imageUrl} alt={product.name}
-                    className="w-full h-full object-contain hover:scale-[1.04] transition-transform duration-500" />
-                </div>
+                <Reveal variant="scale-in">
+                  <div className="rounded-[1.75rem] overflow-hidden bg-[#f5f5f5] flex items-center justify-center p-12"
+                    style={{ aspectRatio: '1/1' }}>
+                    <BlurImage src={product.imageUrl} alt={product.name}
+                      className="w-full h-full object-contain hover:scale-[1.04]" />
+                  </div>
+                </Reveal>
                 <div className="flex gap-3">
                   <button className="w-20 h-20 rounded-2xl bg-[#f5f5f5] p-3 flex items-center justify-center border-2 border-[#e5252a]">
                     <img src={product.imageUrl} alt="" className="w-full h-full object-contain" />
@@ -150,35 +140,30 @@ export default function ProductPage() {
 
                 <button
                   onClick={() => setShowShops(v => !v)}
-                  className="inline-flex items-center gap-3 h-[54px] px-8 bg-[#e5252a] text-white font-bold text-[14px] uppercase tracking-wide rounded-full hover:bg-[#c91d22] transition-all duration-200 mb-4 w-fit group"
+                  className="inline-flex items-center gap-3 h-[54px] px-8 bg-[#e5252a] text-white font-bold text-[14px] uppercase tracking-wide rounded-full hover:bg-[#c91d22] transition-all duration-200 mb-4 w-fit"
                   style={{ boxShadow: '0 8px 28px rgba(229,37,42,0.35)' }}>
-                  Saznaj gdje kupiti
+                  Kupi odmah
                   <ChevronDown size={16} className={`transition-transform duration-300 ${showShops ? 'rotate-180' : ''}`} />
                 </button>
 
-                <AnimatePresence>
-                  {showShops && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden mb-6">
-                      <div className="grid grid-cols-2 gap-3 pt-2">
-                        {SHOPS.map(({ name, color }) => (
-                          <div key={name}
-                            className="flex flex-col items-center justify-between p-5 rounded-2xl bg-[#fafafa] border border-gray-100 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] transition-all duration-200">
+                {showShops && (
+                  <div className="mb-6">
+                    <StaggerGroup stagger={0.06} className="grid grid-cols-2 gap-3 pt-2">
+                      {SHOPS.map(({ name, color }) => (
+                        <StaggerItem key={name} y={16}>
+                          <div
+                            className="flex flex-col items-center justify-between p-5 rounded-2xl bg-[#fafafa] border border-gray-100 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 transition-all duration-200 h-full">
                             <span className="text-[16px] font-black text-center leading-snug py-2" style={{ color }}>{name}</span>
                             <a href="#"
-                              className="w-full h-10 bg-[#e5252a] hover:bg-[#c91d22] text-white font-bold text-[11px] uppercase tracking-widest rounded-xl flex items-center justify-center transition-colors duration-200 mt-3">
+                              className="w-full h-10 bg-[#e5252a] hover:bg-[#c91d22] active:scale-[0.97] text-white font-bold text-[11px] uppercase tracking-widest rounded-xl flex items-center justify-center transition-all duration-200 mt-3">
                               Kupi odmah
                             </a>
                           </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        </StaggerItem>
+                      ))}
+                    </StaggerGroup>
+                  </div>
+                )}
 
               </div>
             </div>
@@ -188,13 +173,10 @@ export default function ProductPage() {
 
         {/* ── DETALJNE INFORMACIJE — tamno zelena kao kategorije ── */}
         {details.length > 0 && (
-          <section className="relative py-24 overflow-hidden"
-            style={{
-              backgroundImage: 'url(/slike/background.png)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}>
-            <div className="absolute inset-0" style={{ background: 'rgba(5,22,8,0.45)' }} />
+          <section className="relative py-24 overflow-hidden">
+            <ParallaxBg src="/slike/background.png" speed={0.1}>
+              <div className="absolute inset-0" style={{ background: 'rgba(5,22,8,0.45)' }} />
+            </ParallaxBg>
             <div className="relative z-10 max-w-[88rem] mx-auto px-8 sm:px-14 xl:px-20">
               <div className="flex items-center gap-3 mb-8">
                 <span className="block h-px w-8 bg-white/30" />
@@ -243,32 +225,33 @@ export default function ProductPage() {
         )}
 
         {/* ── BADŽEVI — krem kao trust sekcija ── */}
-        <section className="relative overflow-hidden py-20"
-          style={{
-            backgroundImage: 'url(/slike/background-2.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}>
-          <div className="absolute inset-0" style={{ background: 'rgba(255,252,245,0.30)' }} />
+        <section className="relative overflow-hidden py-20">
+          <ParallaxBg src="/slike/background-2.png" speed={0.08}>
+            <div className="absolute inset-0" style={{ background: 'rgba(255,252,245,0.30)' }} />
+          </ParallaxBg>
           <div className="relative z-10 max-w-[88rem] mx-auto px-8 sm:px-14 xl:px-20 text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="block h-px w-8 bg-[#e5252a]/50" />
-              <span className="text-[#e5252a] text-[11px] font-bold uppercase tracking-[0.22em]">Naša garancija</span>
-              <span className="block h-px w-8 bg-[#e5252a]/50" />
-            </div>
-            <h2 className="font-black text-[#111] tracking-[-0.04em] leading-[1] mb-14"
-              style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>
-              Čisto iz prirode,<br /><em className="not-italic text-[#e5252a]">provjereno za vas.</em>
-            </h2>
-            <div className="flex items-center justify-center gap-20 sm:gap-32 flex-wrap">
+            <Reveal>
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <span className="block h-px w-8 bg-[#e5252a]/50" />
+                <span className="text-[#e5252a] text-[11px] font-bold uppercase tracking-[0.22em]">Naša garancija</span>
+                <span className="block h-px w-8 bg-[#e5252a]/50" />
+              </div>
+              <h2 className="font-black text-[#111] tracking-[-0.04em] leading-[1] mb-14"
+                style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>
+                Čisto iz prirode,<br /><em className="not-italic text-[#e5252a]">provjereno za vas.</em>
+              </h2>
+            </Reveal>
+            <StaggerGroup stagger={0.1} className="flex items-center justify-center gap-20 sm:gap-32 flex-wrap">
               {[
                 '/badges/bez-konzervansa.svg',
                 '/badges/bez-titan-dioksida.svg',
                 '/badges/bez-gmo.svg',
               ].map((src) => (
-                <img key={src} src={src} alt="" className="w-36 h-36 object-contain" />
+                <StaggerItem key={src}>
+                  <img src={src} alt="" className="w-36 h-36 object-contain" />
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
           </div>
         </section>
 
@@ -282,14 +265,14 @@ export default function ProductPage() {
                   Možda vas zanima i
                 </h3>
               </Reveal>
-              <div className="grid sm:grid-cols-3 gap-5">
-                {related.map((p, i) => (
-                  <Reveal key={p.id} delay={i * 0.07}>
+              <StaggerGroup stagger={0.07} className="grid sm:grid-cols-3 gap-5">
+                {related.map((p) => (
+                  <StaggerItem key={p.id}>
                     <Link to={`/product/${p.id}`}
                       className="group flex flex-col rounded-[1.5rem] overflow-hidden bg-white border border-gray-100 hover:shadow-[0_8px_40px_rgba(229,37,42,0.10)] hover:-translate-y-1 transition-all duration-300">
                       <div className="bg-[#f5f5f5] overflow-hidden" style={{ aspectRatio: '4/3' }}>
-                        <img src={p.imageUrl} alt={p.name}
-                          className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500" />
+                        <BlurImage src={p.imageUrl} alt={p.name}
+                          className="w-full h-full object-cover group-hover:scale-[1.04]" />
                       </div>
                       <div className="p-4 flex items-center justify-between gap-3">
                         <div>
@@ -299,9 +282,9 @@ export default function ProductPage() {
                         <ArrowRight size={16} className="text-gray-300 group-hover:text-[#e5252a] transition-colors flex-shrink-0" />
                       </div>
                     </Link>
-                  </Reveal>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
             </div>
           </section>
         )}

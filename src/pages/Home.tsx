@@ -25,75 +25,17 @@ import { api } from '../lib/api';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
-import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion, type PanInfo } from 'motion/react';
+import { Reveal, StaggerGroup, StaggerItem, ParallaxBg, BlurImage, EASE } from '../components/motion';
 
-/* ─── Scroll reveal ─── */
-function Reveal({ children, delay = 0, y = 40, className = '' }:
-  { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
-  const ref = useRef(null);
-  const visible = useInView(ref, { once: true, margin: '-60px' });
-  return (
-    <motion.div ref={ref} className={className}
-      initial={{ opacity: 0, y }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
-}
-
-const FALLBACK_SLIDES = [
+const HERO_KV_SLIDES = [
   {
-    id: 1,
-    product_id: 'kurkuma-hot-cream-225',
-    tagline: 'TOPLINA KOJA PRUŽA OLAKŠANJE',
-    name1: 'KURKUMA',
-    name2: 'CREAM',
-    name2b: 'HOT',
-    sub: 'Pruža osjećaj ugodnosti i prijatne topline uz 11 pažljivo odabranih biljnih ekstrakata.',
-    img: '/slike/Kurkuma hot cream.png',
-    bg: 'linear-gradient(130deg, #fdf8f2 0%, #fef4e4 55%, #fde8c4 100%)',
-    bgColor: '#fdf8f2',
-    accentColor: '#d4600a',
-    glow: 'rgba(220, 100, 0, 0.14)',
-    pictograms: [
-      { src: '/slike/Pictograms_Warming effect .png', label: '11 pažljivo odabranih biljnih ekstrakata' },
-      { src: '/slike/Pictograms_Application zone .png', label: 'Dermatološki testirano' },
-      { src: '/slike/Pictograms_Joint zone (rheumatic) .png', label: 'Quality guarantee' },
-    ],
-  },
-  {
-    id: 2,
-    product_id: 'urasan-forte-30',
-    tagline: 'PODRŠKA ZDRAVLJU PROSTATE',
-    name1: 'URASAN',
-    name2: '',
-    name2b: 'FORTE',
-    sub: 'Prirodni ekstrakti koji podržavaju zdravlje urološkog sustava i kvalitetu svakodnevnog života.',
-    img: '/slike/Urasan Forte.png',
-    bg: 'linear-gradient(130deg, #f8f0ff 0%, #f2eaff 55%, #e8d8ff 100%)',
-    bgColor: '#f8f0ff',
-    accentColor: '#7c3aed',
-    glow: 'rgba(124, 58, 237, 0.12)',
-    pictograms: [
-      { src: "/slike/Pictograms_Men's health .png", label: 'Muško zdravlje' },
-      { src: '/slike/Pictograms_Urinary function .png', label: 'Urinarni sustav' },
-      { src: '/slike/Pictograms_Zinc.png', label: 'Cink' },
-    ],
-  },
-  {
-    id: 3,
-    product_id: 'citrax-forte-30',
+    id: 1, product_id: 'citrax-forte-30',
+    desktop: '/slike/hero/hero-desktop-citrax-forte.png', mobile: '/slike/hero/hero-mobile-citrax-forte.png',
     tagline: 'PRIRODAN PUT DO VITKE LINIJE',
-    name1: 'CITRAX',
-    name2: '',
-    name2b: 'FORTE',
+    name1: 'CITRAX', name2: '', name2b: 'FORTE',
     sub: 'Podržava metabolizam i kontrolu tjelesne težine uz prirodne, klinički provjerene sastojke.',
-    img: '/slike/Citrax Forte.png',
-    bg: 'linear-gradient(130deg, #f0faf4 0%, #e6f7ec 55%, #d0edda 100%)',
-    bgColor: '#f0faf4',
-    accentColor: '#16a34a',
-    glow: 'rgba(22, 163, 74, 0.12)',
+    accentColor: '#16a34a', glow: 'rgba(22,163,74,0.35)',
     pictograms: [
       { src: '/slike/Pictograms_Weight loss .png', label: 'Gubitak težine' },
       { src: '/slike/Pictograms_Appetite control .png', label: 'Kontrola apetita' },
@@ -101,64 +43,85 @@ const FALLBACK_SLIDES = [
     ],
   },
   {
-    id: 4,
-    product_id: 'kurkuma-forte-30',
-    tagline: 'SNAGA PRIRODE ZA VAŠE ZGLOBOVE',
-    name1: 'KURKUMA',
-    name2: '',
-    name2b: 'FORTE',
-    sub: 'Kurkumin i prirodni antioksidansi za zdrave zglobove, smanjenje upala i slobodu pokreta.',
-    img: '/slike/Kurkuma Forte.png',
-    bg: 'linear-gradient(130deg, #fffbf0 0%, #fef9e0 55%, #fdf0b8 100%)',
-    bgColor: '#fffbf0',
-    accentColor: '#ca8a04',
-    glow: 'rgba(202, 138, 4, 0.14)',
+    id: 2, product_id: 'kurkuma-cream-cold-100',
+    desktop: '/slike/hero/hero-desktop-kurkuma-cream-cold.png', mobile: '/slike/hero/hero-mobile-kurkuma-cream-cold.png',
+    tagline: 'HLADNA NJEGA ZA UMORENE MIŠIĆE',
+    name1: 'KURKUMA', name2: 'CREAM', name2b: 'COLD',
+    sub: 'Osvježavajuća formula s prirodnim ekstraktima za osjećaj ugodne hladnoće i oporavak.',
+    accentColor: '#0ea5e9', glow: 'rgba(14,165,233,0.35)',
     pictograms: [
-      { src: '/slike/Pictograms_Joints_ bones _ muscles .png', label: 'Zglobovi, kosti i mišići' },
+      { src: '/slike/Pictograms_Application zone .png', label: 'Zona primjene' },
+      { src: '/slike/Pictograms_Joint zone (rheumatic) .png', label: 'Zglobovi' },
+      { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Oporavak' },
+    ],
+  },
+  {
+    id: 3, product_id: 'kurkuma-hot-cream-225',
+    desktop: '/slike/hero/hero-desktop-kurkuma-cream-hot.png', mobile: '/slike/hero/hero-mobile-kurkuma-cream-hot.png',
+    tagline: 'TOPLINA KOJA PRUŽA OLAKŠANJE',
+    name1: 'KURKUMA', name2: 'CREAM', name2b: 'HOT',
+    sub: 'Pruža osjećaj ugodnosti i prijatne topline uz 11 pažljivo odabranih biljnih ekstrakata.',
+    accentColor: '#d4600a', glow: 'rgba(220,100,0,0.35)',
+    pictograms: [
+      { src: '/slike/Pictograms_Warming effect .png', label: 'Efekt topline' },
+      { src: '/slike/Pictograms_Application zone .png', label: 'Dermatološki testirano' },
+      { src: '/slike/Pictograms_Joint zone (rheumatic) .png', label: 'Quality guarantee' },
+    ],
+  },
+  {
+    id: 4, product_id: 'kurkuma-forte-30',
+    desktop: '/slike/hero/hero-desktop-kurkuma-forte.png', mobile: '/slike/hero/hero-mobile-kurkuma-forte.png',
+    tagline: 'SNAGA PRIRODE ZA VAŠE ZGLOBOVE',
+    name1: 'KURKUMA', name2: '', name2b: 'FORTE',
+    sub: 'Kurkumin i prirodni antioksidansi za zdrave zglobove, smanjenje upala i slobodu pokreta.',
+    accentColor: '#ca8a04', glow: 'rgba(202,138,4,0.35)',
+    pictograms: [
+      { src: '/slike/Pictograms_Joints_ bones _ muscles .png', label: 'Zglobovi i kosti' },
       { src: '/slike/Pictograms_Connective tissue .png', label: 'Vezivno tkivo' },
-      { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Oporavak nakon sporta' },
+      { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Oporavak' },
+    ],
+  },
+  {
+    id: 5, product_id: 'urasan-forte-30',
+    desktop: '/slike/hero/hero-desktop-urasan-forte.png', mobile: '/slike/hero/hero-mobile-urasan-forte.png',
+    tagline: 'PODRŠKA ZDRAVLJU PROSTATE',
+    name1: 'URASAN', name2: '', name2b: 'FORTE',
+    sub: 'Prirodni ekstrakti koji podržavaju zdravlje urološkog sustava i kvalitetu svakodnevnog života.',
+    accentColor: '#7c3aed', glow: 'rgba(124,58,237,0.35)',
+    pictograms: [
+      { src: "/slike/Pictograms_Men's health .png", label: 'Muško zdravlje' },
+      { src: '/slike/Pictograms_Urinary function .png', label: 'Urinarni sustav' },
+      { src: '/slike/Pictograms_Zinc.png', label: 'Cink' },
     ],
   },
 ];
 
-/* stagger variant factory */
-const stagger = (delay = 0) => ({
-  hidden: { opacity: 0, y: 32 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] } },
-  exit: { opacity: 0, y: -16, transition: { duration: 0.2, ease: 'easeIn' } },
-});
+/* Hero text stagger varijante */
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.25, ease: 'easeIn' as const } },
+};
+const heroItem = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+const heroLine = {
+  hidden: { y: '105%' },
+  show: { y: 0, transition: { duration: 0.7, ease: EASE } },
+};
+
+const AUTOPLAY_MS = 6000;
 
 export default function Home() {
   const [slide, setSlide] = useState(0);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [slides, setSlides] = useState<any[]>(FALLBACK_SLIDES);
+  const [paused, setPaused] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const heroRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    // Hero slajdovi iz admina (ako ih ima); inače FALLBACK_SLIDES
-    const base = (import.meta as any).env?.VITE_API_URL || 'http://localhost:4000/api';
-    fetch(`${base}/hero-slides`)
-      .then(r => r.ok ? r.json() : null)
-      .then((data: any[]) => {
-        if (!Array.isArray(data) || data.length === 0) return;
-        const mapped = data.map((p: any) => {
-          let pics = p.pictograms;
-          if (typeof pics === 'string') { try { pics = JSON.parse(pics); } catch { pics = []; } }
-          const accent = p.accent_color || '#d4600a';
-          return {
-            ...p,
-            img: p.image_url,
-            accentColor: accent,
-            glow: accent + '40',
-            pictograms: Array.isArray(pics) ? pics : [],
-          };
-        });
-        setSlides(mapped);
-        setSlide(0);
-      })
-      .catch(() => {});
     api.getProducts().then(data => setProducts(data.map((p: any) => ({
       ...p, imageUrl: p.image_url, categoryId: p.category_id, shortDescription: p.short_description,
     })))).catch(() => {});
@@ -167,28 +130,37 @@ export default function Home() {
     })))).catch(() => {});
   }, []);
 
-  const cur = slides[slide] || slides[0];
-
-  /* auto-advance */
+  /* auto-advance — `slide` u deps: ručna navigacija resetuje 6s prozor */
   useEffect(() => {
-    if (slides.length <= 1) return;
-    const t = setInterval(() => {
-      setSlide(p => (p + 1) % slides.length);
-      setImgLoaded(false);
-    }, 6000);
+    if (paused) return;
+    const t = setInterval(() => setSlide(p => (p + 1) % HERO_KV_SLIDES.length), AUTOPLAY_MS);
     return () => clearInterval(t);
-  }, [slides.length]);
+  }, [slide, paused]);
 
-  /* parallax on hero image */
-  const { scrollY } = useScroll();
-  const imgY = useTransform(scrollY, [0, 600], [0, 60]);
+  /* hero scroll parallax — slika sporije klizi, tekst fade-out */
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroImgY = useTransform(heroProgress, [0, 1], ['0%', '12%']);
+  const heroTextY = useTransform(heroProgress, [0, 0.7], [0, -40]);
+  const heroTextOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
+
+  /* swipe na mobile */
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
+    if (info.offset.x < -60 || info.velocity.x < -400) {
+      setSlide(p => (p + 1) % HERO_KV_SLIDES.length);
+    } else if (info.offset.x > 60 || info.velocity.x > 400) {
+      setSlide(p => (p - 1 + HERO_KV_SLIDES.length) % HERO_KV_SLIDES.length);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
       <style>{`
         @media (max-width: 767px) {
-          #kategorije { background-position: 80% center !important; }
-          .trust-bg   { background-position: 18% center !important; }
+          .bg-kategorije { background-position: 80% center !important; }
+          .bg-trust      { background-position: 18% center !important; }
         }
       `}</style>
       <PageSeo pageKey="home" fallbackTitle="Bioclinica - Prirodni dodaci prehrani" fallbackDescription="Otkrijte Bioclinica liniju prirodnih dodataka prehrani za zdravlje zglobova, prostate i mršavljenje." />
@@ -196,128 +168,160 @@ export default function Home() {
       <main className="flex-grow">
 
         {/* ═══════════════════════════════════════════════════════
-            HERO
+            HERO — full bleed KV background + tekst overlay
         ═══════════════════════════════════════════════════════ */}
-        <section ref={heroRef} className="bg-white pt-4 pb-0 px-4 sm:px-6">
-          <div className="max-w-[92rem] mx-auto">
+        <section ref={heroRef}
+          className="relative overflow-hidden w-full min-h-[500px] h-[calc(100vh-76px)] md:h-[calc(100vh-112px)]"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}>
 
-            {/* Hero — seamless banner: slika desno (puna), tekst lijevo */}
-            <div className="relative overflow-hidden rounded-[1.5rem]"
-              style={{
-                minHeight: 'clamp(560px, 76vh, 820px)',
-                background: 'linear-gradient(180deg, #f0f3f2 0%, #f5f7f6 55%, #f8faf9 100%)',
-              }}>
-
-              {/* Sve u jednom AnimatePresence — slika i tekst sinhronizirani */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={slide}
-                  className="relative lg:absolute lg:inset-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.45, ease: 'easeInOut' }}>
-
-                  {/* SLIKA desktop — desno, puna visina, lijeva ivica feathered */}
-                  <img
-                    src={cur.img || cur.image_url}
-                    alt={cur.name1}
-                    onLoad={() => setImgLoaded(true)}
-                    className="hidden lg:block absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none"
-                    style={{
-                      WebkitMaskImage: 'linear-gradient(to right, transparent 0%, #000 20%)',
-                      maskImage: 'linear-gradient(to right, transparent 0%, #000 20%)',
-                    }}
+          {/* KV slika — fullscreen background + Ken Burns + scroll parallax.
+              Crossfade (bez mode="wait"): nova slika se pretapa preko stare — nema bljeska */}
+          <motion.div className="absolute inset-0" style={{ y: reduceMotion ? 0 : heroImgY, willChange: 'transform' }}>
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={slide}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.9, ease: 'easeInOut' }}
+                className="absolute inset-0">
+                <picture>
+                  <source media="(max-width: 767px)" srcSet={HERO_KV_SLIDES[slide].mobile} />
+                  <motion.img
+                    src={HERO_KV_SLIDES[slide].desktop}
+                    alt=""
+                    initial={{ scale: reduceMotion ? 1 : 1.06 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 7, ease: 'linear' }}
+                    className="w-full h-full object-cover object-center"
                   />
+                </picture>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
 
-                  {/* TEKST — lijevo (desktop), centrirano (mobilno) */}
-                  <div className="relative z-10 flex flex-col justify-center lg:h-full
-                    items-center text-center lg:items-start lg:text-left
-                    px-7 sm:px-12 lg:px-16 xl:px-24 pt-12 pb-8 lg:py-12 max-w-[560px] mx-auto lg:mx-0">
+          {/* Swipe overlay — samo touch/mobile, ispod teksta i kontrola */}
+          <motion.div
+            className="absolute inset-0 z-[5] lg:hidden"
+            style={{ touchAction: 'pan-y' }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.12}
+            onDragStart={() => setPaused(true)}
+            onDragEnd={(e, info) => { handleDragEnd(e, info); setPaused(false); }}
+          />
 
-                    <span className="text-[11px] font-black uppercase tracking-[0.22em] mb-4 lg:mb-5 block"
-                      style={{ color: cur.accentColor || '#d4600a' }}>
-                      {cur.tagline}
-                    </span>
+          {/* Tekst overlay — per-element stagger; mobile: centriran u gornjoj polovini (proizvod je na KV slici dole) */}
+          <motion.div
+            className="absolute inset-x-0 top-0 h-[45%] lg:h-full z-10 flex items-center pointer-events-none"
+            style={{ y: reduceMotion ? 0 : heroTextY, opacity: reduceMotion ? 1 : heroTextOpacity }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`text-${slide}`}
+                variants={heroContainer}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                className="w-full px-6 sm:px-10">
+                <div className="max-w-[90rem] mx-auto">
+                  <div className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-[600px] mx-auto lg:mx-0 pointer-events-auto">
+
+                    <motion.span variants={heroItem}
+                      className="text-[11px] font-black uppercase tracking-[0.22em] mb-4 lg:mb-5 block"
+                      style={{ color: HERO_KV_SLIDES[slide].accentColor }}>
+                      {HERO_KV_SLIDES[slide].tagline}
+                    </motion.span>
 
                     <div className="mb-5 lg:mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2.4rem, 9vw, 4.8rem)' }}>
-                      <div className="font-black text-[#111] tracking-[-0.03em] leading-[0.9]">{cur.name1}</div>
-                      <div className="font-black tracking-[-0.03em] leading-[0.9]">
-                        {cur.name2 && <span className="text-[#111]">{cur.name2} </span>}
-                        <span style={{ color: cur.accentColor || '#d4600a' }}>{cur.name2b}</span>
+                      <div className="overflow-hidden">
+                        <motion.div variants={heroLine} className="font-black text-[#111] tracking-[-0.03em] leading-[0.95]">
+                          {HERO_KV_SLIDES[slide].name1}
+                        </motion.div>
+                      </div>
+                      <div className="overflow-hidden">
+                        <motion.div variants={heroLine} className="font-black tracking-[-0.03em] leading-[0.95]">
+                          {HERO_KV_SLIDES[slide].name2 && <span className="text-[#111]">{HERO_KV_SLIDES[slide].name2} </span>}
+                          <span style={{ color: HERO_KV_SLIDES[slide].accentColor }}>{HERO_KV_SLIDES[slide].name2b}</span>
+                        </motion.div>
                       </div>
                     </div>
 
-                    <p className="text-gray-600 leading-[1.7] mb-7 lg:mb-8 font-normal max-w-[340px]"
+                    <motion.p variants={heroItem}
+                      className="hidden lg:block text-gray-700 leading-[1.7] mb-7 lg:mb-8 font-normal max-w-[340px]"
                       style={{ fontSize: '1rem' }}>
-                      {cur.sub}
-                    </p>
+                      {HERO_KV_SLIDES[slide].sub}
+                    </motion.p>
 
-                    <div className="flex items-start justify-center lg:justify-start gap-5 sm:gap-6 mb-8 lg:mb-9">
-                      {(cur.pictograms || []).map((pic: any, i: number) => (
+                    <motion.div variants={heroItem}
+                      className="hidden lg:flex items-start justify-center lg:justify-start gap-5 sm:gap-6 mb-8 lg:mb-9">
+                      {HERO_KV_SLIDES[slide].pictograms.map((pic, i) => (
                         <div key={i} className="flex flex-col items-center gap-2 text-center" style={{ maxWidth: 84 }}>
                           <img src={pic.src} alt={pic.label} className="w-12 h-12 object-contain" />
-                          <span className="text-[10px] text-gray-500 font-semibold leading-tight">{pic.label}</span>
+                          <span className="text-[10px] text-gray-600 font-semibold leading-tight">{pic.label}</span>
                         </div>
                       ))}
-                    </div>
+                    </motion.div>
 
-                    <Link to={`/product/${cur.product_id}`}
-                      className="inline-flex items-center gap-3 h-[52px] px-8 text-white font-bold text-[13px] uppercase tracking-[0.08em] rounded-full hover:opacity-90 transition-opacity"
-                      style={{ background: cur.accentColor || '#d4600a', boxShadow: `0 8px 28px ${cur.glow || 'rgba(220,100,0,0.35)'}` }}>
-                      Kupi odmah <ArrowRight size={14} />
-                    </Link>
+                    <motion.div variants={heroItem}>
+                      <Link to={`/product/${HERO_KV_SLIDES[slide].product_id}`}
+                        className="inline-flex items-center gap-3 h-[52px] px-8 text-white font-bold text-[13px] uppercase tracking-[0.08em] rounded-full hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
+                        style={{ background: HERO_KV_SLIDES[slide].accentColor, boxShadow: `0 8px 28px ${HERO_KV_SLIDES[slide].glow}` }}>
+                        Kupi odmah <ArrowRight size={14} />
+                      </Link>
+                    </motion.div>
                   </div>
-
-                  {/* SLIKA mobilno — ispod teksta, gornja ivica feathered */}
-                  <div className="lg:hidden">
-                    <img src={cur.img || cur.image_url} alt={cur.name1}
-                      className="w-full h-auto object-contain"
-                      style={{
-                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, #000 16%)',
-                        maskImage: 'linear-gradient(to bottom, transparent 0%, #000 16%)',
-                      }} />
-                  </div>
-
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Dots + strelice */}
-              <div className="absolute bottom-8 left-10 sm:left-16 xl:left-24 z-20 hidden lg:flex items-center gap-5">
-                {/* Dots */}
-                <div className="flex items-center gap-2">
-                  {slides.map((_, i) => (
-                    <button key={i} onClick={() => { setSlide(i); setImgLoaded(false); }}
-                      className="rounded-full transition-all duration-300"
-                      style={{
-                        width: i === slide ? 22 : 8,
-                        height: 8,
-                        background: i === slide ? (cur.accentColor || '#d4600a') : 'rgba(0,0,0,0.22)',
-                      }} />
-                  ))}
                 </div>
-                {/* Strelice */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => { setSlide(p => (p - 1 + slides.length) % slides.length); setImgLoaded(false); }}
-                    aria-label="Prethodni"
-                    className="w-10 h-10 rounded-full border border-black/15 flex items-center justify-center text-gray-500 hover:text-white transition-colors duration-200"
-                    style={{ ['--hover-bg' as any]: cur.accentColor }}
-                    onMouseEnter={e => { e.currentTarget.style.background = cur.accentColor; e.currentTarget.style.borderColor = cur.accentColor; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)'; }}>
-                    <ArrowLeft size={15} />
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Dots (autoplay progress) + strelice */}
+          <div className="absolute bottom-8 left-0 right-0 z-20 px-6 sm:px-10">
+            <div className="max-w-[90rem] mx-auto flex items-center gap-5">
+              <div className="flex items-center gap-2">
+                {HERO_KV_SLIDES.map((_, i) => (
+                  <button key={i} onClick={() => setSlide(i)}
+                    aria-label={`Slajd ${i + 1}`}
+                    className="relative rounded-full transition-all duration-300 overflow-hidden"
+                    style={{
+                      width: i === slide ? 26 : 8, height: 8,
+                      background: i === slide ? 'rgba(0,0,0,0.14)' : 'rgba(0,0,0,0.22)',
+                    }}>
+                    {i === slide && !reduceMotion && !paused && (
+                      <motion.span
+                        key={`progress-${slide}`}
+                        className="absolute inset-0 rounded-full"
+                        style={{ background: HERO_KV_SLIDES[slide].accentColor, originX: 0 }}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
+                      />
+                    )}
+                    {i === slide && (reduceMotion || paused) && (
+                      <span className="absolute inset-0 rounded-full" style={{ background: HERO_KV_SLIDES[slide].accentColor }} />
+                    )}
                   </button>
-                  <button
-                    onClick={() => { setSlide(p => (p + 1) % slides.length); setImgLoaded(false); }}
-                    aria-label="Sljedeći"
-                    className="w-10 h-10 rounded-full border border-black/15 flex items-center justify-center text-gray-500 hover:text-white transition-colors duration-200"
-                    onMouseEnter={e => { e.currentTarget.style.background = cur.accentColor; e.currentTarget.style.borderColor = cur.accentColor; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)'; }}>
-                    <ArrowRight size={15} />
-                  </button>
-                </div>
+                ))}
               </div>
-
+              <div className="flex items-center gap-2">
+                <motion.button
+                  onClick={() => setSlide(p => (p - 1 + HERO_KV_SLIDES.length) % HERO_KV_SLIDES.length)}
+                  aria-label="Prethodni"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
+                  className="w-10 h-10 rounded-full border border-black/15 flex items-center justify-center text-gray-500 bg-white/40 backdrop-blur-sm hover:text-[#111] hover:border-black/30 transition-colors duration-200">
+                  <ArrowLeft size={15} />
+                </motion.button>
+                <motion.button
+                  onClick={() => setSlide(p => (p + 1) % HERO_KV_SLIDES.length)}
+                  aria-label="Sljedeći"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
+                  className="w-10 h-10 rounded-full border border-black/15 flex items-center justify-center text-gray-500 bg-white/40 backdrop-blur-sm hover:text-[#111] hover:border-black/30 transition-colors duration-200">
+                  <ArrowRight size={15} />
+                </motion.button>
+              </div>
             </div>
           </div>
         </section>
@@ -328,7 +332,7 @@ export default function Home() {
         <section id="proizvodi" className="py-12 lg:py-24 bg-white">
           <div className="max-w-[88rem] mx-auto px-5 sm:px-14">
 
-            {/* Header — naslov lijevo, link desno */}
+            {/* Header */}
             <div className="flex items-end justify-between gap-6 mb-8 sm:mb-12">
               <Reveal>
                 <p className="section-label mb-3">Najprodavaniji proizvodi</p>
@@ -338,7 +342,7 @@ export default function Home() {
                 </h2>
               </Reveal>
               <Reveal delay={0.1} className="hidden sm:block flex-shrink-0 pb-1">
-                <Link to="/#proizvodi"
+                <Link to="/products"
                   className="inline-flex items-center gap-2 text-[13px] font-bold text-[#111] hover:text-[#e5252a] transition-colors duration-200 group">
                   Pogledaj sve proizvode
                   <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
@@ -346,73 +350,80 @@ export default function Home() {
               </Reveal>
             </div>
 
-            {/* Grid — 4 kartice */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {products.slice(0, 4).map((p, idx) => {
-                const ratings = [4.5, 4.3, 4.8, 4.1];
-                const counts = [92, 74, 68, 81];
-                const rating = ratings[idx] ?? 4.4;
-                const count = counts[idx] ?? 56;
-                return (
-                  <motion.div
-                    key={p.id}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.07, ease: [0.16, 1, 0.3, 1] }}>
-                    <Link to={`/product/${p.id}`}
-                      className="group relative flex flex-col rounded-[1.5rem] overflow-hidden bg-white border border-gray-100 hover:shadow-[0_8px_40px_rgba(229,37,42,0.10)] hover:-translate-y-1 transition-all duration-300 h-full">
-
-                      {/* Badge */}
-                      {idx === 0 && (
-                        <span className="absolute top-4 left-4 z-10 bg-[#f59e0b] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                          Najprodavaniji
-                        </span>
-                      )}
-
-                      {/* Slika */}
-                      <div className="bg-[#f8f8f8] overflow-hidden aspect-[4/3] sm:aspect-square">
-                        <img
-                          src={p.imageUrl}
-                          alt={p.name}
-                          className="w-full h-full object-contain p-4 sm:p-6 group-hover:scale-[1.04] transition-transform duration-500"
-                        />
-                      </div>
-
-                      {/* Info */}
-                      <div className="p-5 flex flex-col gap-3 flex-1">
-                        <div>
-                          <p className="font-black text-[#111] text-[15px] leading-snug"
-                            style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            {p.name}
-                          </p>
-                          {p.packaging && (
-                            <p className="text-[12px] text-gray-400 mt-0.5">{p.packaging}</p>
+            {(() => {
+              const PRIORITY = ['urasan-forte-30', 'kurkuma-forte-30', 'kurkuma-cream-cold-100', 'kurkuma-hot-cream-225', 'citrax-forte-30'];
+              const sorted = [...products].sort((a, b) => {
+                const ai = PRIORITY.indexOf(a.id); const bi = PRIORITY.indexOf(b.id);
+                return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+              });
+              const main = sorted.slice(0, 4);
+              const rest = sorted.slice(4);
+              const ratings = [4.8, 4.6, 4.5, 4.3, 4.7, 4.2, 4.4, 4.1];
+              const counts  = [112, 94, 78, 65, 88, 51, 73, 42];
+              return (
+                <>
+                  {/* Glavna 4 kartice */}
+                  <StaggerGroup className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" stagger={0.07}>
+                    {main.map((p, idx) => (
+                      <StaggerItem key={p.id}>
+                        <Link to={`/product/${p.id}`}
+                          className="group relative flex flex-col rounded-[1.5rem] overflow-hidden bg-white border border-gray-100 hover:shadow-[0_8px_40px_rgba(229,37,42,0.10)] hover:-translate-y-1 transition-all duration-300 h-full">
+                          {idx === 0 && (
+                            <span className="absolute top-4 left-4 z-10 bg-[#f59e0b] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                              Najprodavaniji
+                            </span>
                           )}
-                        </div>
+                          <div className="bg-[#f8f8f8] overflow-hidden aspect-[4/3] sm:aspect-square">
+                            <img src={p.imageUrl} alt={p.name}
+                              className="w-full h-full object-contain p-4 sm:p-6 group-hover:scale-[1.04] transition-transform duration-500" />
+                          </div>
+                          <div className="p-5 flex flex-col gap-3 flex-1">
+                            <div>
+                              <p className="font-black text-[#111] text-[15px] leading-snug"
+                                style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{p.name}</p>
+                              {p.packaging && <p className="text-[12px] text-gray-400 mt-0.5">{p.packaging}</p>}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <StarRating rating={ratings[idx] ?? 4.4} />
+                              <span className="text-[12px] text-gray-400">({counts[idx] ?? 56})</span>
+                            </div>
+                            <p className="font-black text-[#111] text-[1.25rem] tracking-[-0.02em]"
+                              style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                              {Number(p.price).toFixed(2)} €
+                            </p>
+                            <div className="mt-auto flex items-center justify-center h-11 rounded-xl bg-[#e5252a] text-white font-bold text-[12px] uppercase tracking-wide hover:bg-[#c91d22] transition-colors duration-200 cursor-pointer">
+                              Detaljnije
+                            </div>
+                          </div>
+                        </Link>
+                      </StaggerItem>
+                    ))}
+                  </StaggerGroup>
 
-                        {/* Zvjezdice */}
-                        <div className="flex items-center gap-2">
-                          <StarRating rating={rating} />
-                          <span className="text-[12px] text-gray-400">({count})</span>
-                        </div>
-
-                        {/* Cijena */}
-                        <p className="font-black text-[#111] text-[1.25rem] tracking-[-0.02em]"
-                          style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                          {Number(p.price).toFixed(2)} €
-                        </p>
-
-                        {/* Dugme */}
-                        <div className="mt-auto flex items-center justify-center gap-2 h-11 rounded-xl bg-[#e5252a] text-white font-bold text-[12px] uppercase tracking-wide hover:bg-[#c91d22] transition-colors duration-200 cursor-pointer">
-                          Detaljnije
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </div>
+                  {/* Ostali proizvodi — kompaktne kartice */}
+                  {rest.length > 0 && (
+                    <StaggerGroup className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3" stagger={0.06}>
+                      {rest.map((p) => (
+                        <StaggerItem key={p.id} y={16}>
+                          <Link to={`/product/${p.id}`}
+                            className="group flex items-center gap-3 p-3 rounded-2xl border border-gray-100 bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="flex-shrink-0 w-14 h-14 bg-[#f8f8f8] rounded-xl overflow-hidden">
+                              <img src={p.imageUrl} alt={p.name}
+                                className="w-full h-full object-contain p-1.5 group-hover:scale-105 transition-transform duration-300" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="font-bold text-[#111] text-[13px] leading-snug truncate"
+                                style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{p.name}</p>
+                              <p className="text-[13px] font-black text-[#e5252a] mt-0.5">{Number(p.price).toFixed(2)} €</p>
+                            </div>
+                          </Link>
+                        </StaggerItem>
+                      ))}
+                    </StaggerGroup>
+                  )}
+                </>
+              );
+            })()}
 
           </div>
         </section>
@@ -420,15 +431,12 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════
             CATEGORIES — "Priroda kao izvor vašeg zdravlja"
         ═══════════════════════════════════════════════════════ */}
-        <section id="kategorije" className="relative py-14 sm:py-24 overflow-hidden"
-          style={{
-            backgroundImage: 'url(/slike/background.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}>
+        <section id="kategorije" className="relative py-14 sm:py-24 overflow-hidden">
 
-          {/* Tamni overlay za čitljivost */}
-          <div className="absolute inset-0" style={{ background: 'rgba(5, 22, 8, 0.42)' }} />
+          <ParallaxBg src="/slike/background.png" speed={0.1} className="bg-kategorije">
+            {/* Tamni overlay za čitljivost */}
+            <div className="absolute inset-0" style={{ background: 'rgba(5, 22, 8, 0.42)' }} />
+          </ParallaxBg>
 
           <div className="relative z-10 max-w-[88rem] mx-auto px-8 sm:px-14">
 
@@ -440,7 +448,7 @@ export default function Home() {
               </h2>
             </Reveal>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <StaggerGroup className="grid md:grid-cols-3 gap-4" stagger={0.08}>
               {[
                 {
                   id: 'zdravlje-prostate',
@@ -460,23 +468,13 @@ export default function Home() {
                   label: 'Mršavljenje',
                   desc: 'Podrška metabolizmu i kontroli tjelesne težine – prirodno i učinkovito.',
                 },
-              ].map((cat, i) => (
-                <Reveal key={cat.id} delay={i * 0.08}>
+              ].map((cat) => (
+                <StaggerItem key={cat.id}>
                   <Link to={`/category/${cat.id}`}
-                    className="group flex flex-row items-start gap-5 p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300"
-                    style={{
-                      background: 'rgba(10, 35, 14, 0.55)',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                      backdropFilter: 'blur(8px)',
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.22)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(10,45,16,0.65)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(10,35,14,0.55)';
-                    }}>
+                    className="group flex flex-row items-start gap-5 p-6 rounded-2xl hover:-translate-y-1
+                      bg-[rgba(10,35,14,0.55)] hover:bg-[rgba(10,45,16,0.65)]
+                      border border-white/12 hover:border-white/22
+                      backdrop-blur-[8px] transition-all duration-300">
 
                     {/* Ikona — krug */}
                     <div className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center"
@@ -499,9 +497,9 @@ export default function Home() {
                     </div>
 
                   </Link>
-                </Reveal>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
 
           </div>
         </section>
@@ -509,16 +507,12 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════
             TRUST STRIP — "Samo ono što vam je potrebno"
         ═══════════════════════════════════════════════════════ */}
-        <section className="trust-bg relative overflow-hidden"
-          style={{
-            backgroundImage: 'url(/slike/background-2.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            minHeight: 220,
-          }}>
+        <section className="relative overflow-hidden" style={{ minHeight: 220 }}>
 
-          {/* Lagani overlay da tekst bude čitljiv na krem pozadini */}
-          <div className="absolute inset-0" style={{ background: 'rgba(255,252,245,0.30)' }} />
+          <ParallaxBg src="/slike/background-2.png" speed={0.08} className="bg-trust">
+            {/* Lagani overlay da tekst bude čitljiv na krem pozadini */}
+            <div className="absolute inset-0" style={{ background: 'rgba(255,252,245,0.30)' }} />
+          </ParallaxBg>
 
           <div className="relative z-10 max-w-[88rem] mx-auto px-5 sm:px-14 py-10 sm:py-14">
             {/* Centar — label + naslov + 4 feature */}
@@ -534,7 +528,7 @@ export default function Home() {
                 </h2>
               </Reveal>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 w-full max-w-4xl">
+              <StaggerGroup className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 w-full max-w-4xl" stagger={0.08}>
                 {[
                   {
                     Icon: Leaf,
@@ -557,7 +551,7 @@ export default function Home() {
                     desc: 'Vaše zdravlje nam je na prvom mjestu.',
                   },
                 ].map((item, i) => (
-                  <Reveal key={i} delay={i * 0.08}>
+                  <StaggerItem key={i}>
                     <div className="flex flex-col items-center text-center gap-3">
                       <div className="w-12 h-12 rounded-full flex items-center justify-center"
                         style={{ background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.10)' }}>
@@ -573,9 +567,9 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                  </Reveal>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
 
             </div>
           </div>
@@ -618,8 +612,8 @@ export default function Home() {
 
                       {/* Slika — čista, bez overlay-a */}
                       <div className="relative overflow-hidden rounded-[1.25rem]" style={{ aspectRatio: '16/9' }}>
-                        <img src={post.imageUrl} alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-600" />
+                        <BlurImage src={post.imageUrl} alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-[1.04]" />
                         {/* Kategorija tag — top left */}
                         <span className="absolute top-4 left-4 bg-[#e5252a] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">
                           {tag}
@@ -656,13 +650,9 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════
             CTA — "Ojačajte svoje zdravlje, prirodnim putem."
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden"
-          style={{
-            backgroundImage: 'url(/slike/background-3.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            minHeight: 220,
-          }}>
+        <section className="relative overflow-hidden" style={{ minHeight: 220 }}>
+
+          <ParallaxBg src="/slike/background-3.png" speed={0.08} />
 
           <div className="relative z-10 max-w-[88rem] mx-auto px-5 sm:px-14 py-12 lg:py-16">
             <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-16 lg:max-w-[68%]">
@@ -692,10 +682,9 @@ export default function Home() {
                     <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                   </Link>
                   <Link to="/about"
-                    className="inline-flex items-center h-12 px-7 text-white font-bold text-[13px] uppercase tracking-wide rounded-full transition-all duration-200"
-                    style={{ border: '1.5px solid rgba(255,255,255,0.35)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.7)'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.35)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+                    className="inline-flex items-center h-12 px-7 text-white font-bold text-[13px] uppercase tracking-wide rounded-full
+                      border-[1.5px] border-white/35 hover:border-white/70 hover:bg-white/8
+                      active:scale-[0.97] transition-all duration-200">
                     Saznajte više
                   </Link>
                 </div>

@@ -1,9 +1,16 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ChevronRight, ArrowLeft, Calendar, Share2, Facebook, Twitter, Linkedin, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { api } from '../lib/api';
+import { Reveal, StaggerGroup, StaggerItem, BlurImage, EASE } from '../components/motion';
+
+const headItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
 
 export default function NewsArticlePage() {
   const { id } = useParams<{ id: string }>();
@@ -34,81 +41,94 @@ export default function NewsArticlePage() {
 
         {/* ── HEADER ČLANKA ── */}
         <section className="pt-16 pb-10 bg-white border-b border-gray-100">
-          <div className="max-w-[88rem] mx-auto px-8 sm:px-14 xl:px-20">
-            <nav className="flex items-center gap-2 text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-10">
+          <motion.div
+            className="max-w-[88rem] mx-auto px-8 sm:px-14 xl:px-20"
+            initial="hidden"
+            animate="show"
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}>
+            <motion.nav variants={headItem}
+              className="flex items-center gap-2 text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-10">
               <Link to="/" className="hover:text-[#e5252a] transition-colors">Početna</Link>
               <ChevronRight size={12} />
               <Link to="/news" className="hover:text-[#e5252a] transition-colors">Novosti</Link>
               <ChevronRight size={12} />
               <span className="text-[#111] truncate max-w-[240px]">{post.title}</span>
-            </nav>
+            </motion.nav>
 
             <div className="max-w-3xl">
-              <Link to="/news"
-                className="inline-flex items-center gap-2 text-[13px] font-bold text-gray-400 hover:text-[#e5252a] transition-colors mb-8">
-                <ArrowLeft size={14} /> Natrag na novosti
-              </Link>
+              <motion.div variants={headItem}>
+                <Link to="/news"
+                  className="inline-flex items-center gap-2 text-[13px] font-bold text-gray-400 hover:text-[#e5252a] transition-colors mb-8">
+                  <ArrowLeft size={14} /> Natrag na novosti
+                </Link>
+              </motion.div>
 
-              <div className="flex items-center gap-3 mb-5">
+              <motion.div variants={headItem} className="flex items-center gap-3 mb-5">
                 <span className="bg-[#e5252a] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Zdravlje</span>
                 <span className="flex items-center gap-1.5 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">
                   <Calendar size={12} /> {post.date}
                 </span>
-              </div>
+              </motion.div>
 
-              <h1 className="font-black text-[#111] tracking-[-0.04em] leading-[1.05] mb-6"
+              <motion.h1 variants={headItem}
+                className="font-black text-[#111] tracking-[-0.04em] leading-[1.05] mb-6"
                 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
                 {post.title}
-              </h1>
+              </motion.h1>
 
-              <p className="text-gray-500 text-[18px] leading-[1.7] font-normal">
+              <motion.p variants={headItem}
+                className="text-gray-500 text-[18px] leading-[1.7] font-normal">
                 {post.excerpt}
-              </p>
+              </motion.p>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* ── HERO SLIKA ── */}
         <div className="max-w-5xl mx-auto px-8 sm:px-14 py-10">
-          <div className="rounded-[1.75rem] overflow-hidden" style={{ aspectRatio: '21/9' }}>
-            <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
-          </div>
+          <Reveal variant="scale-in">
+            <div className="rounded-[1.75rem] overflow-hidden" style={{ aspectRatio: '21/9' }}>
+              <BlurImage src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
+            </div>
+          </Reveal>
         </div>
 
         {/* ── SADRŽAJ ── */}
         <section className="pb-24">
           <div className="max-w-3xl mx-auto px-8 sm:px-14">
-            {post.content ? (
-              post.content.split('\n\n').map((p: string, i: number) => (
-                <p key={i} className="text-[17px] text-gray-600 leading-[1.85] mb-7 font-normal">{p}</p>
-              ))
-            ) : (
-              <p className="text-[17px] text-gray-400 leading-[1.85] italic font-normal">
-                Kompletan sadržaj za ovaj članak trenutno nije dostupan.
-              </p>
-            )}
+            <Reveal y={24}>
+              {post.content ? (
+                post.content.split('\n\n').map((p: string, i: number) => (
+                  <p key={i} className="text-[17px] text-gray-600 leading-[1.85] mb-7 font-normal">{p}</p>
+                ))
+              ) : (
+                <p className="text-[17px] text-gray-400 leading-[1.85] italic font-normal">
+                  Kompletan sadržaj za ovaj članak trenutno nije dostupan.
+                </p>
+              )}
+            </Reveal>
 
             {/* Share */}
-            <div className="mt-16 pt-10 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-2 text-[13px] font-bold text-[#111] uppercase tracking-widest">
-                <Share2 size={15} className="text-[#e5252a]" /> Podijeli članak
+            <Reveal y={16}>
+              <div className="mt-16 pt-10 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-2 text-[13px] font-bold text-[#111] uppercase tracking-widest">
+                  <Share2 size={15} className="text-[#e5252a]" /> Podijeli članak
+                </div>
+                <div className="flex items-center gap-3">
+                  {[
+                    { Icon: Facebook, cls: 'hover:bg-[#1877F2] hover:border-[#1877F2]', label: 'Facebook' },
+                    { Icon: Twitter, cls: 'hover:bg-[#1DA1F2] hover:border-[#1DA1F2]', label: 'Twitter' },
+                    { Icon: Linkedin, cls: 'hover:bg-[#0A66C2] hover:border-[#0A66C2]', label: 'LinkedIn' },
+                  ].map(({ Icon, cls, label }) => (
+                    <a key={label} href="#" aria-label={`Podijeli na ${label}`}
+                      className={`w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-400
+                        hover:text-white hover:-translate-y-0.5 active:scale-95 transition-all duration-200 ${cls}`}>
+                      <Icon size={15} />
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                {[
-                  { Icon: Facebook, bg: '#1877F2' },
-                  { Icon: Twitter, bg: '#1DA1F2' },
-                  { Icon: Linkedin, bg: '#0A66C2' },
-                ].map(({ Icon, bg }, i) => (
-                  <a key={i} href="#"
-                    className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200"
-                    style={{ ['--hover-bg' as string]: bg }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = bg; (e.currentTarget as HTMLElement).style.borderColor = bg; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = ''; (e.currentTarget as HTMLElement).style.borderColor = ''; }}>
-                    <Icon size={15} />
-                  </a>
-                ))}
-              </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -120,9 +140,10 @@ export default function NewsArticlePage() {
                 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.5rem' }}>
                 Pročitajte još
               </h3>
-              <div className="grid md:grid-cols-2 gap-6">
+              <StaggerGroup stagger={0.1} className="grid md:grid-cols-2 gap-6">
                 {related.map(rp => (
-                  <Link key={rp.id} to={`/news/${rp.id}`}
+                  <StaggerItem key={rp.id}>
+                  <Link to={`/news/${rp.id}`}
                     className="group flex rounded-[1.25rem] overflow-hidden border border-gray-100 bg-white hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 transition-all duration-300">
                     <div className="w-36 flex-shrink-0 overflow-hidden">
                       <img src={rp.imageUrl} alt={rp.title}
@@ -139,8 +160,9 @@ export default function NewsArticlePage() {
                       </span>
                     </div>
                   </Link>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerGroup>
             </div>
           </section>
         )}
