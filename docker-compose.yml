@@ -1,0 +1,87 @@
+# Bioclinica — Dokploy / Docker Compose deploy
+# Tajne dolaze isključivo iz okruženja (${VAR}) — vidi .env.example i deploy.md.
+# NEMA portova mapiranih na host: Traefik se spaja preko dokploy-network,
+# web/admin nginx proxyju API interno.
+
+services:
+  bioclinica-web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+      args:
+        VITE_API_URL: /api
+    restart: unless-stopped
+    depends_on:
+      - bioclinica-api
+    networks:
+      - dokploy-network
+      - internal
+
+  bioclinica-admin:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.admin
+      args:
+        VITE_API_URL: /api
+        VITE_FRONTEND_URL: ${SITE_URL:-}
+    restart: unless-stopped
+    depends_on:
+      - bioclinica-api
+    networks:
+      - dokploy-network
+      - internal
+
+  bioclinica-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: bioclinica
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: bioclinica
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN:-}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      UPLOAD_DIR: /app/uploads
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bioclinica
+      POSTGRES_USER: bioclinica
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      # PG18 layout — volumen na /var/lib/postgresql (ne .../data)
+      - db-data:/var/lib/postgresql
+      # Prvi boot (prazan volumen): šema + podaci
+      - ./server/db-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bioclinica -d bioclinica"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - internal
+
+volumes:
+  db-data:
+  uploads:
+
+networks:
+  internal:
+  dokploy-network:
+    external: true

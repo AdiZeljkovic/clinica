@@ -10,7 +10,7 @@ const router = Router();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // index.ts servira /uploads iz <projekt>/uploads (server/src → ../../uploads).
 // Ovaj fajl je u server/src/routes, pa treba jedan nivo više: ../../../uploads.
-const UPLOAD_DIR = join(__dirname, '../../../uploads');
+const UPLOAD_DIR = process.env.UPLOAD_DIR || join(__dirname, '../../../uploads');
 
 if (!existsSync(UPLOAD_DIR)) mkdirSync(UPLOAD_DIR, { recursive: true });
 

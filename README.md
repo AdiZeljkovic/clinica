@@ -1,20 +1,33 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Bioclinica
 
-# Run and deploy your AI Studio app
+Web platforma za Bioclinica SWP prirodne dodatke prehrani — frontend,
+admin panel i API.
 
-This contains everything you need to run your app locally.
+> ## ⚠️ REPO MORA BITI PRIVATAN
+> `server/db-init/01-init.sql` sadrži kompletan sadržaj baze, uključujući
+> bcrypt hash admin korisnika. Ne objavljivati javno.
 
-View your app in AI Studio: https://ai.studio/apps/2acbf74c-dd56-4314-b4d9-2191b38a0cee
+## Struktura
 
-## Run Locally
+| Dio | Tehnologija | Dev port | Build |
+|---|---|---|---|
+| Frontend (`src/`) | React 19 + Vite + Tailwind 4 + motion | 3002 | `dist/` |
+| Admin (`admin/`) | React + Vite | 3001 | `dist-admin/` |
+| API (`server/`) | Express + TypeScript + pg | 4000 | `server/dist/` |
+| Baza | PostgreSQL 18 | 5432 | — |
 
-**Prerequisites:**  Node.js
+## Lokalni dev
 
+```bash
+# .env u rootu (vidi .env.example)
+npm install && npm run dev            # frontend
+cd admin && npm install && npm run dev
+cd server && npm install && npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Baza: PostgreSQL, šema u `server/schema.postgres.sql`, podaci u
+`server/db-init/01-init.sql`.
+
+## Deploy
+
+Docker Compose za Dokploy — vidi **[deploy.md](deploy.md)**.
