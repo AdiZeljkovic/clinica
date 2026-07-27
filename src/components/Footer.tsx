@@ -23,7 +23,7 @@ export default function Footer() {
               <img src="/Bioclinica_Logo.png" alt="Bioclinica SWP" className="h-12 w-auto" />
             </Link>
             <p className="text-[13px] leading-relaxed text-white/50">
-              Prirodna podrška vašem zdravlju već više od 10 godina. Kvalitet, pouzdanost i rezultati kojima možete vjerovati.
+              Prirodna podrška vašem zdravlju već više od 20 godina. Kvalitet, pouzdanost i rezultati kojima možete vjerovati.
             </p>
             <div className="flex items-center gap-2.5 mt-1">
               {[

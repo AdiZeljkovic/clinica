@@ -4,7 +4,7 @@ import {
   ArrowRight, ArrowLeft,
   Activity, TrendingDown, ShieldPlus,
   Leaf, FlaskConical, ShieldCheck, Heart,
-  Truck, Award,
+  Award,
 } from 'lucide-react';
 
 function StarRating({ rating }: { rating: number }) {
@@ -34,36 +34,38 @@ const HERO_KV_SLIDES = [
     desktop: '/slike/hero/hero-desktop-citrax-forte.png', mobile: '/slike/hero/hero-mobile-citrax-forte.png',
     tagline: 'PRIRODAN PUT DO VITKE LINIJE',
     name1: 'CITRAX', name2: '', name2b: 'FORTE',
-    sub: 'Podržava metabolizam i kontrolu tjelesne težine uz prirodne, klinički provjerene sastojke.',
-    accentColor: '#16a34a', glow: 'rgba(22,163,74,0.35)',
+    sub: 'Snagom gorke narandže pomaže u gubitku kilograma i kontroli apetita.',
+    accentColor: '#e5252a', glow: 'rgba(229,37,42,0.35)',
     pictograms: [
-      { src: '/slike/Pictograms_Weight loss .png', label: 'Gubitak težine' },
+      { src: '/slike/Pictograms_Weight loss .png', label: 'Gubitak kilograma' },
       { src: '/slike/Pictograms_Appetite control .png', label: 'Kontrola apetita' },
       { src: '/slike/Pictograms_Fat breakdown .png', label: 'Razgradnja masti' },
     ],
   },
   {
-    id: 2, product_id: 'kurkuma-cream-cold-100',
+    id: 2, product_id: 'kurkuma-cream-cold-225',
     desktop: '/slike/hero/hero-desktop-kurkuma-cream-cold.png', mobile: '/slike/hero/hero-mobile-kurkuma-cream-cold.png',
     tagline: 'HLADNA NJEGA ZA UMORENE MIŠIĆE',
     name1: 'KURKUMA', name2: 'CREAM', name2b: 'COLD',
-    sub: 'Osvježavajuća formula s prirodnim ekstraktima za osjećaj ugodne hladnoće i oporavak.',
+    sub: 'Uz efekat hlađenja i 15 biljnih ekstrakata, osvježava i opušta umorne mišiće.',
     accentColor: '#0ea5e9', glow: 'rgba(14,165,233,0.35)',
     pictograms: [
-      { src: '/slike/Pictograms_Application zone .png', label: 'Zona primjene' },
-      { src: '/slike/Pictograms_Joint zone (rheumatic) .png', label: 'Zglobovi' },
-      { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Oporavak' },
+      { src: '/slike/Pictograms_Cooling effect.png', label: 'Efekat hlađenja' },
+      { src: '/slike/Pictograms_Muscle relax cold.svg', label: 'Opuštanje mišića' },
+      { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Sportski oporavak' },
     ],
   },
   {
-    id: 3, product_id: 'kurkuma-hot-cream-225',
+    id: 3, product_id: 'kurkuma-cream-hot-225',
     desktop: '/slike/hero/hero-desktop-kurkuma-cream-hot.png', mobile: '/slike/hero/hero-mobile-kurkuma-cream-hot.png',
     tagline: 'TOPLINA KOJA PRUŽA OLAKŠANJE',
     name1: 'KURKUMA', name2: 'CREAM', name2b: 'HOT',
-    sub: 'Pruža osjećaj ugodnosti i prijatne topline uz 11 pažljivo odabranih biljnih ekstrakata.',
-    accentColor: '#d4600a', glow: 'rgba(220,100,0,0.35)',
+    sub: 'Uz efekat topline i 11 biljnih ekstrakata, opušta napete mišiće i ukočene zglobove.',
+    accentColor: '#e5252a', glow: 'rgba(229,37,42,0.35)',
     pictograms: [
       { src: '/slike/Pictograms_Warming effect .png', label: 'Efekt topline' },
+      { src: '/slike/Pictograms_Circulation.png', label: 'Bolja prokrvljenost' },
+      { src: '/slike/Pictograms_Muscles joints.svg', label: 'Mišići i zglobovi' },
       { src: '/slike/Pictograms_Application zone .png', label: 'Dermatološki testirano' },
       { src: '/slike/Pictograms_Joint zone (rheumatic) .png', label: 'Quality guarantee' },
     ],
@@ -71,12 +73,13 @@ const HERO_KV_SLIDES = [
   {
     id: 4, product_id: 'kurkuma-forte-30',
     desktop: '/slike/hero/hero-desktop-kurkuma-forte.png', mobile: '/slike/hero/hero-mobile-kurkuma-forte.png',
-    tagline: 'SNAGA PRIRODE ZA VAŠE ZGLOBOVE',
+    tagline: 'SLOBODA POKRETA',
     name1: 'KURKUMA', name2: '', name2b: 'FORTE',
     sub: 'Kurkumin i prirodni antioksidansi za zdrave zglobove, smanjenje upala i slobodu pokreta.',
-    accentColor: '#ca8a04', glow: 'rgba(202,138,4,0.35)',
+    accentColor: '#e5252a', glow: 'rgba(229,37,42,0.35)',
     pictograms: [
-      { src: '/slike/Pictograms_Joints_ bones _ muscles .png', label: 'Zglobovi i kosti' },
+      { src: '/slike/Pictograms_Joints_ bones _ muscles .png', label: 'Zglobovi, kosti i mišići' },
+      { src: '/slike/Pictograms_Mobility.svg', label: 'Pokretljivost' },
       { src: '/slike/Pictograms_Connective tissue .png', label: 'Vezivno tkivo' },
       { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Oporavak' },
     ],
@@ -86,9 +89,10 @@ const HERO_KV_SLIDES = [
     desktop: '/slike/hero/hero-desktop-urasan-forte.png', mobile: '/slike/hero/hero-mobile-urasan-forte.png',
     tagline: 'PODRŠKA ZDRAVLJU PROSTATE',
     name1: 'URASAN', name2: '', name2b: 'FORTE',
-    sub: 'Prirodni ekstrakti koji podržavaju zdravlje urološkog sustava i kvalitetu svakodnevnog života.',
-    accentColor: '#7c3aed', glow: 'rgba(124,58,237,0.35)',
+    sub: 'Ekstrakt sjemena bundeve i cink podržavaju urinarni komfor i mušku vitalnost.',
+    accentColor: '#e5252a', glow: 'rgba(229,37,42,0.35)',
     pictograms: [
+      { src: '/slike/Pictograms_Pumpkin seed.svg', label: 'Sjeme bundeve' },
       { src: "/slike/Pictograms_Men's health .png", label: 'Muško zdravlje' },
       { src: '/slike/Pictograms_Urinary function .png', label: 'Urinarni sustav' },
       { src: '/slike/Pictograms_Zinc.png', label: 'Cink' },
@@ -351,7 +355,7 @@ export default function Home() {
             </div>
 
             {(() => {
-              const PRIORITY = ['urasan-forte-30', 'kurkuma-forte-30', 'kurkuma-cream-cold-100', 'kurkuma-hot-cream-225', 'citrax-forte-30'];
+              const PRIORITY = ['urasan-forte-30', 'kurkuma-forte-30', 'kurkuma-cream-cold-225', 'kurkuma-cream-hot-225', 'citrax-forte-30'];
               const sorted = [...products].sort((a, b) => {
                 const ai = PRIORITY.indexOf(a.id); const bi = PRIORITY.indexOf(b.id);
                 return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
@@ -466,7 +470,7 @@ export default function Home() {
                   id: 'mrsavljenje',
                   Icon: TrendingDown,
                   label: 'Mršavljenje',
-                  desc: 'Podrška metabolizmu i kontroli tjelesne težine – prirodno i učinkovito.',
+                  desc: 'Podrška metabolizmu i kontroli tjelesne težine – prirodno i efikasno.',
                 },
               ].map((cat) => (
                 <StaggerItem key={cat.id}>
@@ -537,7 +541,7 @@ export default function Home() {
                   },
                   {
                     Icon: FlaskConical,
-                    title: 'Znanstveno potkrijepljeno',
+                    title: 'Naučno potkrijepljeno',
                     desc: 'Recepture razvijene u saradnji sa stručnjacima.',
                   },
                   {
@@ -693,7 +697,6 @@ export default function Home() {
                 <div className="flex items-center gap-5 flex-wrap">
                   {[
                     { Icon: ShieldCheck, text: 'Sigurna kupovina' },
-                    { Icon: Truck,       text: 'Brza dostava' },
                     { Icon: Award,       text: '100% garancija kvaliteta' },
                   ].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-1.5">

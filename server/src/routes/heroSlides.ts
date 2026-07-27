@@ -54,7 +54,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
     const result = await query<any>(
       `INSERT INTO hero_slides
         (tagline, name1, name2, name2b, sub, image_url, accent_color, pictograms, product_id, is_active, sort_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
       [
         tagline || null, name1, name2 || null, name2b || null, sub || null,
         image_url || null, accent_color || '#d4600a', serializePictograms(pictograms),

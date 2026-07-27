@@ -14,6 +14,41 @@ const SHOPS = [
   { name: 'MojaLjekarna', color: '#00bcd4' },
 ];
 
+/* Piktogram prema sadržaju benefita — redoslijed pravila je bitan (prvo poklapanje pobjeđuje) */
+const PICTOGRAM_RULES: [RegExp, string][] = [
+  [/bundev/i,                    '/slike/Pictograms_Pumpkin seed.svg'],
+  [/cink/i,                      '/slike/Pictograms_Zinc.png'],
+  [/vitamin\s*e/i,               '/slike/Pictograms_Vitamin E .png'],
+  [/mokrenj|bešik/i,             '/slike/Pictograms_Urinary function .png'],
+  [/prostat/i,                   "/slike/Pictograms_Men's health .png"],
+  [/kilogram/i,                  '/slike/Pictograms_Weight loss .png'],
+  [/apetit/i,                    '/slike/Pictograms_Appetite control .png'],
+  [/razgradnj/i,                 '/slike/Pictograms_Fat breakdown .png'],
+  [/metaboliz/i,                 '/slike/Pictograms_Circulation.png'],
+  [/zagrijavanj|toplin/i,        '/slike/Pictograms_Warming effect .png'],
+  [/hlađenj|hladjenj/i,          '/slike/Pictograms_Cooling effect.png'],
+  [/njeguje|štiti/i,             '/slike/Pictograms_ Skin care - perfusion .png'],
+  [/cirkulacij|prokrvljenost/i,  '/slike/Pictograms_Circulation.png'],
+  [/stopala/i,                   '/slike/Pictograms_Tired legs relief .png'],
+  [/otečen|teške noge/i,         '/slike/Pictograms_Tired - heavy legs .png'],
+  [/tetiv|ligament/i,            '/slike/Pictograms_Tendon _ ligament elasticity.png'],
+  [/vezivn/i,                    '/slike/Pictograms_Connective tissue .png'],
+  [/regeneracij/i,               '/slike/Pictograms_Muscles joints.svg'],
+  [/sportsk/i,                   '/slike/Pictograms_After-sport relaxation .png'],
+  [/bola? u mišić/i,             '/slike/Pictograms_Muscle relax cold.svg'],
+  [/zglobova, kostiju|kostiju i mišić/i, '/slike/Pictograms_Joints_ bones _ muscles .png'],
+  [/ukočenost/i,                 '/slike/Pictograms_Mobility.svg'],
+  [/reumatsk|artritis/i,         '/slike/Pictograms_Joint zone (rheumatic) .png'],
+  [/upal|bol/i,                  '/slike/Pictograms_Joint zone (rheumatic) .png'],
+];
+
+function pictogramFor(benefit: string): string {
+  for (const [re, src] of PICTOGRAM_RULES) {
+    if (re.test(benefit)) return src;
+  }
+  return '/slike/Pictograms_Joints_ bones _ muscles .png';
+}
+
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
@@ -127,7 +162,7 @@ export default function ProductPage() {
                       <div key={i} className="flex items-center gap-4">
                         <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center">
                           <img
-                            src={`/pictograms/pictogram-${(i % 3) + 1}.png`}
+                            src={pictogramFor(b)}
                             alt=""
                             className="w-10 h-10 object-contain"
                           />

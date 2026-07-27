@@ -46,7 +46,7 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <p className="font-black text-[#111] text-[1.75rem] leading-none" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        <AnimatedCounter to={15} suffix="+" />
+                        <AnimatedCounter to={20} suffix="+" />
                       </p>
                       <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Godina iskustva</p>
                     </div>
@@ -68,7 +68,7 @@ export default function AboutPage() {
                     Vjerujemo da priroda nudi najbolja rješenja za očuvanje zdravlja i vitalnosti. Naša misija je ta dragocjena rješenja učiniti dostupnima svima, kroz proizvode koji zadovoljavaju najviše farmaceutske standarde.
                   </p>
                   <p className="text-gray-500 text-[15px] sm:text-[16px] leading-[1.8] font-normal">
-                    Svaki Bioclinica proizvod rezultat je dugotrajnog istraživanja, pažljivog odabira sirovina i naprednih tehnoloških procesa koji osiguravaju maksimalnu učinkovitost.
+                    Svaki Bioclinica proizvod rezultat je dugotrajnog istraživanja, pažljivog odabira sirovina i naprednih tehnoloških procesa koji osiguravaju maksimalnu efikasnost.
                   </p>
                 </Reveal>
 
@@ -109,7 +109,7 @@ export default function AboutPage() {
 
             <StaggerGroup stagger={0.08} className="grid sm:grid-cols-3 gap-5">
               {[
-                { Icon: Leaf, title: 'Prirodno porijeklo', desc: 'Koristimo samo najkvalitetnije biljne ekstrakte čija je učinkovitost potvrđena tradicijom i znanošću.' },
+                { Icon: Leaf, title: 'Prirodno porijeklo', desc: 'Koristimo samo najkvalitetnije biljne ekstrakte čija je učinkovitost potvrđena tradicijom i naukom.' },
                 { Icon: ShieldCheck, title: 'Kontrola kvalitete', desc: 'Svi naši proizvodi prolaze stroge analize i kontrole kako bismo osigurali sigurnost i čistoću.' },
                 { Icon: FlaskConical, title: 'Inovativne formule', desc: 'Spajamo tradicionalno znanje s modernom farmaceutskom tehnologijom za najbolje rezultate.' },
               ].map(({ Icon, title, desc }) => (

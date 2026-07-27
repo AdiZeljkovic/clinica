@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- vanjski krug -->
+  <circle cx="50" cy="50" r="46" fill="none" stroke="#808285" stroke-width="4"/>
+  <!-- peteljka -->
+  <path d="M47.5 41 C47 34.5 49.5 30.5 54 29 L56.5 33 C52.5 34.5 50.5 37 50.5 41 Z" fill="#6d6e71"/>
+  <!-- bundeva: tri režnja -->
+  <ellipse cx="36.5" cy="58" rx="13.5" ry="17" fill="#6d6e71"/>
+  <ellipse cx="61.5" cy="58" rx="13.5" ry="17" fill="#6d6e71"/>
+  <ellipse cx="49" cy="58" rx="11.5" ry="18.5" fill="#6d6e71"/>
+  <!-- crvena kvačica -->
+  <circle cx="70" cy="70" r="12.5" fill="#e5252a"/>
+  <path d="M64 70.5 L68.5 75 L76.5 65.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

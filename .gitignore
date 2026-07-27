@@ -12,3 +12,4 @@ coverage/
 *.tif
 /*.png
 /*.svg
+/bioclinica_dump.sql
