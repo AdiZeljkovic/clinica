@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageHero from '../components/PageHero';
+import PageSeo from '../components/PageSeo';
 import { api } from '../lib/api';
 import { StaggerGroup, StaggerItem, BlurImage } from '../components/motion';
 
@@ -19,8 +20,7 @@ export default function CategoryPage() {
       .then(data => setCategoryProducts(data.map((p: any) => ({ ...p, imageUrl: p.image_url, categoryId: p.category_id }))))
       .catch(() => {});
     if (!isAll) {
-      fetch(`${(import.meta as any).env?.VITE_API_URL || 'http://localhost:4000/api'}/categories/${id}`)
-        .then(r => r.ok ? r.json() : Promise.reject())
+      api.getCategory(id!)
         .then(data => setCategory(data))
         .catch(() => setNotFound(true));
     }
@@ -31,6 +31,7 @@ export default function CategoryPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <PageSeo fallbackTitle={isAll ? 'Svi proizvodi - Bioclinica' : `${category.name} - Bioclinica`} />
       <Header />
 
       <main className="flex-grow">

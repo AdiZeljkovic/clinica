@@ -4,6 +4,7 @@ import { ChevronRight, ChevronDown, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PageSeo from '../components/PageSeo';
 import { api } from '../lib/api';
 import { Reveal, StaggerGroup, StaggerItem, ParallaxBg, BlurImage } from '../components/motion';
 
@@ -91,6 +92,7 @@ export default function ProductPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <PageSeo fallbackTitle={`${product.name} (${product.packaging || ''}) - Bioclinica`} fallbackDescription={product.shortDescription || ''} />
       <Header />
 
       <main className="flex-grow">
@@ -126,11 +128,6 @@ export default function ProductPage() {
                       className="w-full h-full object-contain hover:scale-[1.04]" />
                   </div>
                 </Reveal>
-                <div className="flex gap-3">
-                  <button className="w-20 h-20 rounded-2xl bg-[#f5f5f5] p-3 flex items-center justify-center border-2 border-[#e5252a]">
-                    <img src={product.imageUrl} alt="" className="w-full h-full object-contain" />
-                  </button>
-                </div>
               </div>
 
               {/* Desno — info */}

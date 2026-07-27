@@ -2,22 +2,23 @@ import { useState, useEffect } from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Helmet } from 'react-helmet-async';
+import { API_BASE } from '../lib/api';
 
-const BASE = (import.meta as any).env?.VITE_API_URL || 'http://localhost:4000/api';
 const cache: Record<string, any> = {};
 
 interface Props {
-  pageKey: string;
+  pageKey?: string;
   fallbackTitle?: string;
   fallbackDescription?: string;
 }
 
 export default function PageSeo({ pageKey, fallbackTitle, fallbackDescription }: Props) {
-  const [seo, setSeo] = useState<any>(cache[pageKey] || null);
+  const [seo, setSeo] = useState<any>(pageKey ? cache[pageKey] || null : null);
 
   useEffect(() => {
+    if (!pageKey) { setSeo(null); return; }
     if (cache[pageKey]) { setSeo(cache[pageKey]); return; }
-    fetch(`${BASE}/seo/${pageKey}`)
+    fetch(`${API_BASE}/seo/${pageKey}`)
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data) { cache[pageKey] = data; setSeo(data); } })
       .catch(() => {});

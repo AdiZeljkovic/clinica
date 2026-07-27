@@ -48,7 +48,8 @@ interface Pictogram { src: string; label: string; }
 interface Slide {
   id: number;
   tagline: string; name1: string; name2: string; name2b: string;
-  sub: string; image_url: string; accent_color: string;
+  sub: string; image_url: string; image_desktop: string; image_mobile: string;
+  accent_color: string;
   pictograms: Pictogram[]; product_id: string;
   is_active: number; sort_order: number;
 }
@@ -56,7 +57,7 @@ interface Slide {
 interface Product { id: string; name: string; packaging: string; }
 
 const EMPTY: Omit<Slide, 'id'> = {
-  tagline: '', name1: '', name2: '', name2b: '', sub: '', image_url: '',
+  tagline: '', name1: '', name2: '', name2b: '', sub: '', image_url: '', image_desktop: '', image_mobile: '',
   accent_color: '#d4600a', pictograms: [], product_id: '', is_active: 1, sort_order: 0,
 };
 
@@ -115,6 +116,7 @@ function SlideForm({ initial, products, onSave, onClose }: {
   const [form, setForm] = useState<Omit<Slide, 'id'>>(initial ? {
     tagline: initial.tagline || '', name1: initial.name1 || '', name2: initial.name2 || '',
     name2b: initial.name2b || '', sub: initial.sub || '', image_url: initial.image_url || '',
+    image_desktop: initial.image_desktop || '', image_mobile: initial.image_mobile || '',
     accent_color: initial.accent_color || '#d4600a',
     pictograms: Array.isArray(initial.pictograms) ? initial.pictograms : [],
     product_id: initial.product_id || '', is_active: initial.is_active, sort_order: initial.sort_order,
@@ -185,10 +187,14 @@ function SlideForm({ initial, products, onSave, onClose }: {
           placeholder="Kratki opis ispod naslova..." />
       </div>
 
-      {/* Glavna slika */}
+      {/* KV pozadinske slike */}
       <div>
-        <label className={labelCls}>Glavna slika proizvoda (4:3, npr. 1600×1200)</label>
-        <ImageField value={form.image_url} onChange={v => set('image_url', v)} previewClass="h-40" />
+        <label className={labelCls}>KV slika — desktop (full-width pozadina, 2560×1200)</label>
+        <ImageField value={form.image_desktop} onChange={v => set('image_desktop', v)} previewClass="h-32" />
+      </div>
+      <div>
+        <label className={labelCls}>KV slika — mobilna (1080×1400)</label>
+        <ImageField value={form.image_mobile} onChange={v => set('image_mobile', v)} previewClass="h-32" />
       </div>
 
       {/* Accent boja */}
@@ -369,8 +375,8 @@ export default function HeroSlides() {
 
               {/* Sličica */}
               <div className="w-20 h-12 rounded-xl overflow-hidden bg-[#1e1e1e] flex-shrink-0 border border-[#2a2a2a] flex items-center justify-center">
-                {s.image_url
-                  ? <img src={resolveImg(s.image_url)} alt={s.name1} className="w-full h-full object-cover" onError={e => (e.currentTarget.style.display = 'none')} />
+                {(s.image_desktop || s.image_url)
+                  ? <img src={resolveImg(s.image_desktop || s.image_url)} alt={s.name1} className="w-full h-full object-cover" onError={e => (e.currentTarget.style.display = 'none')} />
                   : <Image size={16} className="text-[#444]" />}
               </div>
 

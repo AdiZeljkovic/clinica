@@ -39,7 +39,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
     );
     res.status(201).json({ message: 'Kategorija je kreirana.', id });
   } catch (err: any) {
-    if (err.code === 'ER_DUP_ENTRY') { res.status(409).json({ error: 'Kategorija s tim ID-om već postoji.' }); return; }
+    if (err.code === '23505' || err.code === 'ER_DUP_ENTRY') { res.status(409).json({ error: 'Kategorija s tim ID-om već postoji.' }); return; }
     console.error(err);
     res.status(500).json({ error: 'Greška na serveru.' });
   }

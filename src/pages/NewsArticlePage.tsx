@@ -4,7 +4,8 @@ import { ChevronRight, ArrowLeft, Calendar, Share2, Facebook, Twitter, Linkedin,
 import { motion } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { api } from '../lib/api';
+import PageSeo from '../components/PageSeo';
+import { api, formatDate } from '../lib/api';
 import { Reveal, StaggerGroup, StaggerItem, BlurImage, EASE } from '../components/motion';
 
 const headItem = {
@@ -22,9 +23,9 @@ export default function NewsArticlePage() {
     if (!id) return;
     api.getBlogPost(id)
       .then(data => {
-        setPost({ ...data, imageUrl: data.image_url });
+        setPost({ ...data, imageUrl: data.image_url, date: formatDate(data.published_at) });
         api.getBlogPosts().then(all => {
-          setRelated(all.filter((p: any) => p.id !== data.id).slice(0, 2).map((p: any) => ({ ...p, imageUrl: p.image_url })));
+          setRelated(all.filter((p: any) => p.id !== data.id).slice(0, 2).map((p: any) => ({ ...p, imageUrl: p.image_url, date: formatDate(p.published_at) })));
         });
       })
       .catch(() => setNotFound(true));
@@ -35,6 +36,7 @@ export default function NewsArticlePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <PageSeo fallbackTitle={`${post.title} - Bioclinica`} fallbackDescription={post.excerpt || ''} />
       <Header />
 
       <main className="flex-grow">

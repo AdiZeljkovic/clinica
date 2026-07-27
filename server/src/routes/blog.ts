@@ -61,7 +61,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
     );
     res.status(201).json({ message: 'Članak je kreiran.', id, slug });
   } catch (err: any) {
-    if (err.code === 'ER_DUP_ENTRY') { res.status(409).json({ error: 'Članak s tim ID-om već postoji.' }); return; }
+    if (err.code === '23505' || err.code === 'ER_DUP_ENTRY') { res.status(409).json({ error: 'Članak s tim ID-om već postoji.' }); return; }
     console.error(err);
     res.status(500).json({ error: 'Greška na serveru.' });
   }

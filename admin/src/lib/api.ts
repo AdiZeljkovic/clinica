@@ -22,6 +22,11 @@ async function request<T>(
   const res = await fetch(`${BASE}${path}`, { ...options, headers });
 
   if (!res.ok) {
+    // Istekao/nevažeći token — očisti sesiju i vrati na login
+    if (res.status === 401 && !path.startsWith('/auth/login')) {
+      localStorage.removeItem('bioclinica_token');
+      window.location.href = '/login';
+    }
     const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
     throw new Error(err.error || `HTTP ${res.status}`);
   }

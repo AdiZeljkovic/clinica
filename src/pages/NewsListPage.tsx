@@ -5,13 +5,13 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
 import PageHero from '../components/PageHero';
-import { api } from '../lib/api';
+import { api, formatDate } from '../lib/api';
 import { StaggerGroup, StaggerItem, BlurImage } from '../components/motion';
 
 export default function NewsListPage() {
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   useEffect(() => {
-    api.getBlogPosts().then(data => setBlogPosts(data.map((p: any) => ({ ...p, imageUrl: p.image_url })))).catch(() => {});
+    api.getBlogPosts().then(data => setBlogPosts(data.map((p: any) => ({ ...p, imageUrl: p.image_url, date: formatDate(p.published_at) })))).catch(() => {});
   }, []);
 
   return (

@@ -37,6 +37,7 @@ export function Toast({ message, type, onDismiss }: ToastProps) {
 interface ToastItem { id: number; message: string; type: ToastType; }
 
 let toastCallback: ((msg: string, type: ToastType) => void) | null = null;
+let toastCounter = 0; // module-scope da se ID-jevi ne resetuju na svaki render
 
 export function showToast(message: string, type: ToastType = 'success') {
   toastCallback?.(message, type);
@@ -44,10 +45,9 @@ export function showToast(message: string, type: ToastType = 'success') {
 
 export function ToastContainer() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
-  let counter = 0;
 
   toastCallback = (message, type) => {
-    const id = ++counter;
+    const id = ++toastCounter;
     setToasts(prev => [...prev, { id, message, type }]);
   };
 

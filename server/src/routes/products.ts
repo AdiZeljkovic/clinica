@@ -64,7 +64,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 // POST /api/products - admin
 router.post('/', authMiddleware, async (req: Request, res: Response) => {
-  const { id, category_id, name, short_description, packaging, price, image_url, is_active, sort_order, benefits,
+  const { id, category_id, name, tagline, short_description, packaging, price, image_url, is_active, sort_order, benefits,
           usage_instructions, composition, warnings, storage_temp, country_of_origin } = req.body;
   if (!id || !category_id || !name || price === undefined) {
     res.status(400).json({ error: 'ID, kategorija, naziv i cijena su obavezni.' });
@@ -74,10 +74,10 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
   try {
     await query(
       `INSERT INTO products
-         (id, category_id, name, short_description, packaging, price, image_url, is_active, sort_order,
+         (id, category_id, name, tagline, short_description, packaging, price, image_url, is_active, sort_order,
           usage_instructions, composition, warnings, storage_temp, country_of_origin)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, category_id, name, short_description || null, packaging || null, price, image_url || null, is_active ?? 1, sort_order || 0,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id, category_id, name, tagline || null, short_description || null, packaging || null, price, image_url || null, is_active ?? 1, sort_order || 0,
        usage_instructions || null, composition || null, warnings || null, storage_temp || null, country_of_origin || null]
     );
 
@@ -89,7 +89,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
 
     res.status(201).json({ message: 'Proizvod je kreiran.', id });
   } catch (err: any) {
-    if (err.code === 'ER_DUP_ENTRY') { res.status(409).json({ error: 'Proizvod s tim ID-om već postoji.' }); return; }
+    if (err.code === '23505' || err.code === 'ER_DUP_ENTRY') { res.status(409).json({ error: 'Proizvod s tim ID-om već postoji.' }); return; }
     console.error(err);
     res.status(500).json({ error: 'Greška na serveru.' });
   }
@@ -97,7 +97,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
 
 // PUT /api/products/:id - admin
 router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
-  const { category_id, name, short_description, packaging, price, image_url, is_active, sort_order, benefits,
+  const { category_id, name, tagline, short_description, packaging, price, image_url, is_active, sort_order, benefits,
           usage_instructions, composition, warnings, storage_temp, country_of_origin } = req.body;
   if (!category_id || !name || price === undefined) {
     res.status(400).json({ error: 'Kategorija, naziv i cijena su obavezni.' });
@@ -107,10 +107,10 @@ router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
   try {
     const result = await query<any>(
       `UPDATE products SET
-         category_id=?, name=?, short_description=?, packaging=?, price=?, image_url=?, is_active=?, sort_order=?,
+         category_id=?, name=?, tagline=?, short_description=?, packaging=?, price=?, image_url=?, is_active=?, sort_order=?,
          usage_instructions=?, composition=?, warnings=?, storage_temp=?, country_of_origin=?
        WHERE id=?`,
-      [category_id, name, short_description || null, packaging || null, price, image_url || null, is_active ?? 1, sort_order || 0,
+      [category_id, name, tagline || null, short_description || null, packaging || null, price, image_url || null, is_active ?? 1, sort_order || 0,
        usage_instructions || null, composition || null, warnings || null, storage_temp || null, country_of_origin || null,
        req.params.id]
     );

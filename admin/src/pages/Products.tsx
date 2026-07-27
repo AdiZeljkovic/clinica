@@ -75,9 +75,11 @@ function ImageField({ value, onChange }: { value: string; onChange: (url: string
 }
 
 interface Product {
-  id: string; category_id: string; name: string; short_description: string;
+  id: string; category_id: string; name: string; tagline: string; short_description: string;
   packaging: string; price: number; image_url: string; is_active: number;
   sort_order: number; benefits: string[];
+  usage_instructions: string; composition: string; warnings: string;
+  storage_temp: string; country_of_origin: string;
 }
 interface Category { id: string; name: string; }
 
@@ -89,12 +91,18 @@ function ProductForm({ initial, categories, onSave, onClose }: {
     id: initial?.id || '',
     category_id: initial?.category_id || (categories[0]?.id || ''),
     name: initial?.name || '',
+    tagline: initial?.tagline || '',
     short_description: initial?.short_description || '',
     packaging: initial?.packaging || '',
     price: initial?.price ?? '',
     image_url: initial?.image_url || '',
     is_active: initial?.is_active ?? 1,
     sort_order: initial?.sort_order ?? 0,
+    usage_instructions: initial?.usage_instructions || '',
+    composition: initial?.composition || '',
+    warnings: initial?.warnings || '',
+    storage_temp: initial?.storage_temp || '',
+    country_of_origin: initial?.country_of_origin || '',
   });
   const [benefits, setBenefits] = useState<string[]>(initial?.benefits || ['']);
   const [loading, setLoading] = useState(false);
@@ -168,8 +176,39 @@ function ProductForm({ initial, categories, onSave, onClose }: {
       </div>
 
       <div>
+        <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Tagline (podnaslov)</label>
+        <input className="admin-input" value={form.tagline} onChange={e => set('tagline', e.target.value)} placeholder="npr. Za zdravlje prostate kod odraslih muškaraca" />
+      </div>
+
+      <div>
         <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Kratki opis</label>
         <textarea className="admin-input" rows={2} value={form.short_description} onChange={e => set('short_description', e.target.value)} />
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Upute za uporabu</label>
+        <textarea className="admin-input" rows={2} value={form.usage_instructions} onChange={e => set('usage_instructions', e.target.value)} />
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Sastav</label>
+        <textarea className="admin-input" rows={4} value={form.composition} onChange={e => set('composition', e.target.value)} />
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Upozorenja i napomene</label>
+        <textarea className="admin-input" rows={4} value={form.warnings} onChange={e => set('warnings', e.target.value)} />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Temperatura čuvanja</label>
+          <input className="admin-input" value={form.storage_temp} onChange={e => set('storage_temp', e.target.value)} placeholder="Na sobnoj temperaturi..." />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-2">Zemlja porijekla</label>
+          <input className="admin-input" value={form.country_of_origin} onChange={e => set('country_of_origin', e.target.value)} placeholder="Republika Srbija" />
+        </div>
       </div>
 
       <div>

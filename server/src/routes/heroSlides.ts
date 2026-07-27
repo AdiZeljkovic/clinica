@@ -45,7 +45,7 @@ router.get('/all', authMiddleware, async (_req: Request, res: Response) => {
 
 // POST /api/hero-slides — admin
 router.post('/', authMiddleware, async (req: Request, res: Response) => {
-  const { tagline, name1, name2, name2b, sub, image_url, accent_color, pictograms, product_id, is_active, sort_order } = req.body;
+  const { tagline, name1, name2, name2b, sub, image_url, image_desktop, image_mobile, accent_color, pictograms, product_id, is_active, sort_order } = req.body;
   if (!name1) {
     res.status(400).json({ error: 'Naziv (prvi red) je obavezan.' });
     return;
@@ -53,11 +53,12 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
   try {
     const result = await query<any>(
       `INSERT INTO hero_slides
-        (tagline, name1, name2, name2b, sub, image_url, accent_color, pictograms, product_id, is_active, sort_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
+        (tagline, name1, name2, name2b, sub, image_url, image_desktop, image_mobile, accent_color, pictograms, product_id, is_active, sort_order)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
       [
         tagline || null, name1, name2 || null, name2b || null, sub || null,
-        image_url || null, accent_color || '#d4600a', serializePictograms(pictograms),
+        image_url || null, image_desktop || null, image_mobile || null,
+        accent_color || '#d4600a', serializePictograms(pictograms),
         product_id || null, is_active ?? 1, sort_order ?? 0,
       ]
     );
@@ -70,7 +71,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
 
 // PUT /api/hero-slides/:id — admin
 router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
-  const { tagline, name1, name2, name2b, sub, image_url, accent_color, pictograms, product_id, is_active, sort_order } = req.body;
+  const { tagline, name1, name2, name2b, sub, image_url, image_desktop, image_mobile, accent_color, pictograms, product_id, is_active, sort_order } = req.body;
   if (!name1) {
     res.status(400).json({ error: 'Naziv (prvi red) je obavezan.' });
     return;
@@ -78,11 +79,12 @@ router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
   try {
     const result = await query<any>(
       `UPDATE hero_slides SET
-        tagline=?, name1=?, name2=?, name2b=?, sub=?, image_url=?, accent_color=?, pictograms=?, product_id=?, is_active=?, sort_order=?
+        tagline=?, name1=?, name2=?, name2b=?, sub=?, image_url=?, image_desktop=?, image_mobile=?, accent_color=?, pictograms=?, product_id=?, is_active=?, sort_order=?
        WHERE id=?`,
       [
         tagline || null, name1, name2 || null, name2b || null, sub || null,
-        image_url || null, accent_color || '#d4600a', serializePictograms(pictograms),
+        image_url || null, image_desktop || null, image_mobile || null,
+        accent_color || '#d4600a', serializePictograms(pictograms),
         product_id || null, is_active ?? 1, sort_order ?? 0, req.params.id,
       ]
     );

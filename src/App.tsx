@@ -24,7 +24,18 @@ function PageShell() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (hash) return; // anchor linkovi (/#proizvodi) rade svoj scroll
+    if (hash) {
+      // anchor linkovi (/#proizvodi) — sačekaj render pa skroluj do sekcije
+      const id = hash.slice(1);
+      let attempts = 0;
+      const tryScroll = () => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        else if (++attempts < 20) setTimeout(tryScroll, 100); // sadržaj se možda još učitava
+      };
+      requestAnimationFrame(tryScroll);
+      return;
+    }
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [pathname, hash]);
 

@@ -11,7 +11,7 @@ router.get('/stats', authMiddleware, async (_req: Request, res: Response) => {
       query<any[]>('SELECT COUNT(*) as count FROM products'),
       query<any[]>('SELECT COUNT(*) as count FROM categories'),
       query<any[]>('SELECT COUNT(*) as count FROM blog_posts WHERE is_published = 1'),
-      query<any[]>('SELECT COUNT(*) as count FROM contact_messages WHERE status = "new"'),
+      query<any[]>("SELECT COUNT(*) as count FROM contact_messages WHERE status = 'new'"),
       query<any[]>('SELECT COUNT(*) as count FROM newsletter_subscribers WHERE is_active = 1'),
     ]);
 

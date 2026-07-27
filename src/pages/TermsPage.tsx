@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PageSeo from '../components/PageSeo';
 import { Reveal } from '../components/motion';
 
 const sections = [
@@ -63,6 +64,7 @@ const sections = [
 export default function TermsPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <PageSeo fallbackTitle="Uvjeti korištenja - Bioclinica" />
       <Header />
 
       <main className="flex-grow">

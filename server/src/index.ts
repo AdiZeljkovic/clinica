@@ -31,8 +31,9 @@ const allowedOrigins = Array.from(new Set([
 app.use(cors({
   origin: (origin, cb) => {
     // dozvoli zahtjeve bez origina (curl, server-to-server) i one s liste
+    // cb(null, false) umjesto Error — browser dobije CORS odbijenicu, ne 500
     if (!origin || allowedOrigins.includes(origin)) cb(null, true);
-    else cb(new Error(`CORS: origin ${origin} nije dozvoljen.`));
+    else cb(null, false);
   },
   credentials: true,
 }));

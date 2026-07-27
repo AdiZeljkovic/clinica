@@ -48,7 +48,8 @@ router.post('/', authMiddleware, (req: Request, res: Response) => {
       res.status(400).json({ error: 'Nije poslan fajl.' });
       return;
     }
-    const url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    // Relativni URL — ne veže bazu za konkretan host/protokol
+    const url = `/uploads/${req.file.filename}`;
     res.status(201).json({ url, filename: req.file.filename });
   });
 });

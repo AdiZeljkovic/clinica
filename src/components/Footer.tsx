@@ -3,11 +3,29 @@ import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Reveal, StaggerGroup, StaggerItem } from './motion';
+import { api } from '../lib/api';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
+  const [nlStatus, setNlStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [nlMsg, setNlMsg] = useState('');
 
   function scrollTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setNlStatus('sending');
+    try {
+      const res = await api.subscribeNewsletter(email.trim(), 'footer');
+      setNlStatus('success');
+      setNlMsg(res.message || 'Uspješno ste se prijavili!');
+      setEmail('');
+    } catch (err: any) {
+      setNlStatus('error');
+      setNlMsg(err.message || 'Došlo je do greške. Pokušajte ponovo.');
+    }
+  }
 
   return (
     <footer style={{ background: 'linear-gradient(160deg, #0a1c0c 0%, #0d2210 60%, #081508 100%)' }}>
@@ -67,17 +85,16 @@ export default function Footer() {
             <h4 className="text-white text-[11px] font-black uppercase tracking-[0.18em] mb-5">Informacije</h4>
             <ul className="space-y-3">
               {[
-                'Često postavljana pitanja',
-                'Uslovi kupovine',
-                'Politika privatnosti',
-                'Dostava i plaćanje',
-                'Povrat i reklamacije',
-              ].map(item => (
-                <li key={item}>
-                  <a href="#"
+                { label: 'Često postavljana pitanja', to: '/faq' },
+                { label: 'Uslovi korištenja', to: '/uvjeti' },
+                { label: 'Politika privatnosti', to: '/privatnost' },
+                { label: 'Impressum', to: '/impressum' },
+              ].map(({ label, to }) => (
+                <li key={label}>
+                  <Link to={to}
                     className="text-[13px] text-white/50 hover:text-white transition-colors duration-200">
-                    {item}
-                  </a>
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -89,20 +106,27 @@ export default function Footer() {
             <p className="text-[13px] leading-relaxed mb-4 text-white/50">
               Prijavite se i budite prvi koji saznaje za akcije i nove proizvode.
             </p>
-            <form onSubmit={e => e.preventDefault()} className="flex flex-col gap-3">
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Vaša email adresa"
+                required
                 className="w-full px-4 py-3 rounded-xl text-[13px] text-white bg-white/6
                   border border-white/14 focus:border-white/35 focus:outline-none transition-all"
               />
-              <motion.button type="submit"
+              <motion.button type="submit" disabled={nlStatus === 'sending'}
                 whileTap={{ scale: 0.97 }}
-                className="w-full h-11 bg-[#e5252a] hover:bg-[#c91d22] text-white font-black text-[11px] uppercase tracking-[0.16em] rounded-xl transition-colors duration-200">
-                Prijavite se
+                className="w-full h-11 bg-[#e5252a] hover:bg-[#c91d22] disabled:opacity-60 text-white font-black text-[11px] uppercase tracking-[0.16em] rounded-xl transition-colors duration-200">
+                {nlStatus === 'sending' ? 'Šaljem...' : 'Prijavite se'}
               </motion.button>
+              {nlStatus === 'success' && (
+                <p className="text-[12px] font-semibold text-green-400">{nlMsg}</p>
+              )}
+              {nlStatus === 'error' && (
+                <p className="text-[12px] font-semibold text-red-400">{nlMsg}</p>
+              )}
             </form>
           </StaggerItem>
 

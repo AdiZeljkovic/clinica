@@ -21,7 +21,7 @@ function StarRating({ rating }: { rating: number }) {
     </div>
   );
 }
-import { api } from '../lib/api';
+import { api, formatDate, API_BASE } from '../lib/api';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
@@ -120,26 +120,49 @@ const AUTOPLAY_MS = 6000;
 export default function Home() {
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [slides, setSlides] = useState(HERO_KV_SLIDES);
   const [products, setProducts] = useState<any[]>([]);
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const heroRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    /* Hero slajdovi iz admina; hardkodirani KV set je fallback */
+    fetch(`${API_BASE}/hero-slides`)
+      .then(r => r.ok ? r.json() : null)
+      .then((data: any[] | null) => {
+        if (!Array.isArray(data) || data.length === 0) return;
+        const mapped = data
+          .filter((s: any) => s.image_desktop || s.image_url)
+          .map((s: any) => ({
+            id: s.id,
+            product_id: s.product_id || '',
+            desktop: s.image_desktop || s.image_url,
+            mobile: s.image_mobile || s.image_desktop || s.image_url,
+            tagline: s.tagline || '',
+            name1: s.name1, name2: s.name2 || '', name2b: s.name2b || '',
+            sub: s.sub || '',
+            accentColor: s.accent_color || '#e5252a',
+            glow: (s.accent_color || '#e5252a') + '59',
+            pictograms: Array.isArray(s.pictograms) ? s.pictograms : [],
+          }));
+        if (mapped.length) { setSlides(mapped); setSlide(0); }
+      })
+      .catch(() => {});
     api.getProducts().then(data => setProducts(data.map((p: any) => ({
       ...p, imageUrl: p.image_url, categoryId: p.category_id, shortDescription: p.short_description,
     })))).catch(() => {});
     api.getBlogPosts().then(data => setBlogPosts(data.map((p: any) => ({
-      ...p, imageUrl: p.image_url,
+      ...p, imageUrl: p.image_url, date: formatDate(p.published_at),
     })))).catch(() => {});
   }, []);
 
   /* auto-advance — `slide` u deps: ručna navigacija resetuje 6s prozor */
   useEffect(() => {
-    if (paused) return;
-    const t = setInterval(() => setSlide(p => (p + 1) % HERO_KV_SLIDES.length), AUTOPLAY_MS);
+    if (paused || slides.length <= 1) return;
+    const t = setInterval(() => setSlide(p => (p + 1) % slides.length), AUTOPLAY_MS);
     return () => clearInterval(t);
-  }, [slide, paused]);
+  }, [slide, paused, slides.length]);
 
   /* hero scroll parallax — slika sporije klizi, tekst fade-out */
   const { scrollYProgress: heroProgress } = useScroll({
@@ -153,9 +176,9 @@ export default function Home() {
   /* swipe na mobile */
   const handleDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.x < -60 || info.velocity.x < -400) {
-      setSlide(p => (p + 1) % HERO_KV_SLIDES.length);
+      setSlide(p => (p + 1) % slides.length);
     } else if (info.offset.x > 60 || info.velocity.x > 400) {
-      setSlide(p => (p - 1 + HERO_KV_SLIDES.length) % HERO_KV_SLIDES.length);
+      setSlide(p => (p - 1 + slides.length) % slides.length);
     }
   };
 
@@ -191,9 +214,9 @@ export default function Home() {
                 transition={{ duration: 0.9, ease: 'easeInOut' }}
                 className="absolute inset-0">
                 <picture>
-                  <source media="(max-width: 767px)" srcSet={HERO_KV_SLIDES[slide].mobile} />
+                  <source media="(max-width: 767px)" srcSet={slides[slide].mobile} />
                   <motion.img
-                    src={HERO_KV_SLIDES[slide].desktop}
+                    src={slides[slide].desktop}
                     alt=""
                     initial={{ scale: reduceMotion ? 1 : 1.06 }}
                     animate={{ scale: 1 }}
@@ -233,20 +256,20 @@ export default function Home() {
 
                     <motion.span variants={heroItem}
                       className="text-[11px] font-black uppercase tracking-[0.22em] mb-4 lg:mb-5 block"
-                      style={{ color: HERO_KV_SLIDES[slide].accentColor }}>
-                      {HERO_KV_SLIDES[slide].tagline}
+                      style={{ color: slides[slide].accentColor }}>
+                      {slides[slide].tagline}
                     </motion.span>
 
                     <div className="mb-5 lg:mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2.4rem, 9vw, 4.8rem)' }}>
                       <div className="overflow-hidden">
                         <motion.div variants={heroLine} className="font-black text-[#111] tracking-[-0.03em] leading-[0.95]">
-                          {HERO_KV_SLIDES[slide].name1}
+                          {slides[slide].name1}
                         </motion.div>
                       </div>
                       <div className="overflow-hidden">
                         <motion.div variants={heroLine} className="font-black tracking-[-0.03em] leading-[0.95]">
-                          {HERO_KV_SLIDES[slide].name2 && <span className="text-[#111]">{HERO_KV_SLIDES[slide].name2} </span>}
-                          <span style={{ color: HERO_KV_SLIDES[slide].accentColor }}>{HERO_KV_SLIDES[slide].name2b}</span>
+                          {slides[slide].name2 && <span className="text-[#111]">{slides[slide].name2} </span>}
+                          <span style={{ color: slides[slide].accentColor }}>{slides[slide].name2b}</span>
                         </motion.div>
                       </div>
                     </div>
@@ -254,12 +277,12 @@ export default function Home() {
                     <motion.p variants={heroItem}
                       className="hidden lg:block text-gray-700 leading-[1.7] mb-7 lg:mb-8 font-normal max-w-[340px]"
                       style={{ fontSize: '1rem' }}>
-                      {HERO_KV_SLIDES[slide].sub}
+                      {slides[slide].sub}
                     </motion.p>
 
                     <motion.div variants={heroItem}
                       className="hidden lg:flex items-start justify-center lg:justify-start gap-5 sm:gap-6 mb-8 lg:mb-9">
-                      {HERO_KV_SLIDES[slide].pictograms.map((pic, i) => (
+                      {slides[slide].pictograms.map((pic, i) => (
                         <div key={i} className="flex flex-col items-center gap-2 text-center" style={{ maxWidth: 84 }}>
                           <img src={pic.src} alt={pic.label} className="w-12 h-12 object-contain" />
                           <span className="text-[10px] text-gray-600 font-semibold leading-tight">{pic.label}</span>
@@ -268,9 +291,9 @@ export default function Home() {
                     </motion.div>
 
                     <motion.div variants={heroItem}>
-                      <Link to={`/product/${HERO_KV_SLIDES[slide].product_id}`}
+                      <Link to={`/product/${slides[slide].product_id}`}
                         className="inline-flex items-center gap-3 h-[52px] px-8 text-white font-bold text-[13px] uppercase tracking-[0.08em] rounded-full hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
-                        style={{ background: HERO_KV_SLIDES[slide].accentColor, boxShadow: `0 8px 28px ${HERO_KV_SLIDES[slide].glow}` }}>
+                        style={{ background: slides[slide].accentColor, boxShadow: `0 8px 28px ${slides[slide].glow}` }}>
                         Kupi odmah <ArrowRight size={14} />
                       </Link>
                     </motion.div>
@@ -284,7 +307,7 @@ export default function Home() {
           <div className="absolute bottom-8 left-0 right-0 z-20 px-6 sm:px-10">
             <div className="max-w-[90rem] mx-auto flex items-center gap-5">
               <div className="flex items-center gap-2">
-                {HERO_KV_SLIDES.map((_, i) => (
+                {slides.map((_, i) => (
                   <button key={i} onClick={() => setSlide(i)}
                     aria-label={`Slajd ${i + 1}`}
                     className="relative rounded-full transition-all duration-300 overflow-hidden"
@@ -296,21 +319,21 @@ export default function Home() {
                       <motion.span
                         key={`progress-${slide}`}
                         className="absolute inset-0 rounded-full"
-                        style={{ background: HERO_KV_SLIDES[slide].accentColor, originX: 0 }}
+                        style={{ background: slides[slide].accentColor, originX: 0 }}
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
                       />
                     )}
                     {i === slide && (reduceMotion || paused) && (
-                      <span className="absolute inset-0 rounded-full" style={{ background: HERO_KV_SLIDES[slide].accentColor }} />
+                      <span className="absolute inset-0 rounded-full" style={{ background: slides[slide].accentColor }} />
                     )}
                   </button>
                 ))}
               </div>
               <div className="flex items-center gap-2">
                 <motion.button
-                  onClick={() => setSlide(p => (p - 1 + HERO_KV_SLIDES.length) % HERO_KV_SLIDES.length)}
+                  onClick={() => setSlide(p => (p - 1 + slides.length) % slides.length)}
                   aria-label="Prethodni"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.92 }}
@@ -318,7 +341,7 @@ export default function Home() {
                   <ArrowLeft size={15} />
                 </motion.button>
                 <motion.button
-                  onClick={() => setSlide(p => (p + 1) % HERO_KV_SLIDES.length)}
+                  onClick={() => setSlide(p => (p + 1) % slides.length)}
                   aria-label="Sljedeći"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.92 }}
@@ -391,10 +414,12 @@ export default function Home() {
                               <StarRating rating={ratings[idx] ?? 4.4} />
                               <span className="text-[12px] text-gray-400">({counts[idx] ?? 56})</span>
                             </div>
-                            <p className="font-black text-[#111] text-[1.25rem] tracking-[-0.02em]"
-                              style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                              {Number(p.price).toFixed(2)} €
-                            </p>
+                            {Number(p.price) > 0 && (
+                              <p className="font-black text-[#111] text-[1.25rem] tracking-[-0.02em]"
+                                style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                                {Number(p.price).toFixed(2)} €
+                              </p>
+                            )}
                             <div className="mt-auto flex items-center justify-center h-11 rounded-xl bg-[#e5252a] text-white font-bold text-[12px] uppercase tracking-wide hover:bg-[#c91d22] transition-colors duration-200 cursor-pointer">
                               Detaljnije
                             </div>
@@ -418,7 +443,9 @@ export default function Home() {
                             <div className="min-w-0">
                               <p className="font-bold text-[#111] text-[13px] leading-snug truncate"
                                 style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{p.name}</p>
-                              <p className="text-[13px] font-black text-[#e5252a] mt-0.5">{Number(p.price).toFixed(2)} €</p>
+                              <p className="text-[12px] text-gray-400 mt-0.5">
+                                {Number(p.price) > 0 ? `${Number(p.price).toFixed(2)} €` : p.packaging}
+                              </p>
                             </div>
                           </Link>
                         </StaggerItem>
