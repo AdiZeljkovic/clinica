@@ -9,67 +9,67 @@ import { Reveal } from '../components/motion';
 const sections = [
   {
     title: 'Uvod i primjena',
-    content: `Bioclinica SWP d.o.o. (dalje: "mi", "nas" ili "Bioclinica") posvećena je zaštiti vaše privatnosti i osobnih podataka. Ova Politika privatnosti opisuje kako prikupljamo, koristimo i štitimo vaše osobne podatke u skladu s Općom uredbom o zaštiti podataka (GDPR) i Zakonom o provedbi Opće uredbe o zaštiti podataka.`,
+    content: `Kompanija Sun Wave Pharma, vlasnik brenda Bioclinica SWP (dalje: "mi", "nas" ili "Bioclinica"), posvećena je zaštiti vaše privatnosti i ličnih podataka. Ova Politika privatnosti opisuje kako prikupljamo, koristimo i štitimo vaše lične podatke u skladu s Općom uredbom o zaštiti podataka (GDPR) i Zakonom o provedbi Opće uredbe o zaštiti podataka.`,
   },
   {
     title: 'Koje podatke prikupljamo',
     bullets: [
-      'Identifikacijski podaci: ime, prezime',
+      'Identifikacioni podaci: ime, prezime',
       'Kontakt podaci: e-mail adresa, broj telefona',
-      'Podaci o korištenju: IP adresa, vrsta preglednika, stranice koje ste posjetili',
-      'Podaci o narudžbama: adresa za dostavu, povijest kupovine',
+      'Podaci o korištenju: IP adresa, vrsta pregledača, stranice koje ste posjetili',
+      'Podaci o narudžbama: adresa za dostavu, historija kupovine',
       'Podaci iz newslettera: e-mail adresa i datum prijave',
     ],
   },
   {
-    title: 'Svrha i pravna osnova obrade',
+    title: 'Svrha i pravni osnov obrade',
     bullets: [
       'Izvršenje ugovora: obrada narudžbi i dostava proizvoda',
       'Legitimni interes: poboljšanje usluge, sigurnost web stranice',
-      'Pristanak: slanje newslettera i marketinških komunikacija',
-      'Pravna obveza: čuvanje financijske dokumentacije sukladno zakonskim propisima',
+      'Saglasnost: slanje newslettera i marketinških komunikacija',
+      'Pravna obaveza: čuvanje finansijske dokumentacije u skladu sa zakonskim propisima',
     ],
   },
   {
     title: 'Dijeljenje podataka s trećim stranama',
-    content: `Vaše osobne podatke ne prodajemo niti iznajmljujemo trećim stranama. Podatke možemo dijeliti s:`,
+    content: `Vaše lične podatke ne prodajemo niti iznajmljujemo trećim stranama. Podatke možemo dijeliti sa:`,
     bullets: [
-      'Davatelji usluga dostave (radi isporuke narudžbi)',
+      'Pružaocima usluga dostave (radi isporuke narudžbi)',
       'Procesorima plaćanja (radi obrade transakcija)',
       'IT partnerima (radi tehničke podrške i hosting usluga)',
-      'Nadležnim tijelima (kada to zahtijeva zakon)',
+      'Nadležnim organima (kada to zahtijeva zakon)',
     ],
   },
   {
     title: 'Vaša prava',
     bullets: [
       'Pravo pristupa: možete zatražiti uvid u podatke koje o vama čuvamo',
-      'Pravo na ispravak: možete zatražiti ispravak netočnih podataka',
+      'Pravo na ispravku: možete zatražiti ispravku netačnih podataka',
       'Pravo na brisanje: možete zatražiti brisanje vaših podataka ("pravo na zaborav")',
-      'Pravo na prenosivost: možete zatražiti podatke u strojno čitljivom formatu',
-      'Pravo na prigovor: možete se usprotiviti obradi na temelju legitimnog interesa',
-      'Pravo na opoziv pristanka: u bilo kojem trenutku možete povući pristanak za newsletter',
+      'Pravo na prenosivost: možete zatražiti podatke u mašinski čitljivom formatu',
+      'Pravo na prigovor: možete se usprotiviti obradi na osnovu legitimnog interesa',
+      'Pravo na opoziv saglasnosti: u bilo kojem trenutku možete povući saglasnost za newsletter',
     ],
   },
   {
     title: 'Čuvanje podataka',
-    content: `Vaše osobne podatke čuvamo onoliko dugo koliko je potrebno za ispunjenje svrhe zbog koje su prikupljeni, ili onoliko koliko je propisano zakonom. Podaci vezani uz narudžbe čuvaju se 11 godina sukladno poreznim propisima. Newsletter podatke čuvamo do opoziva pristanka.`,
+    content: `Vaše lične podatke čuvamo onoliko dugo koliko je potrebno za ispunjenje svrhe zbog koje su prikupljeni, ili onoliko koliko je propisano zakonom. Podaci vezani za narudžbe čuvaju se 11 godina u skladu s poreskim propisima. Newsletter podatke čuvamo do opoziva saglasnosti.`,
   },
   {
     title: 'Sigurnost podataka',
-    content: `Primjenjujemo odgovarajuće tehničke i organizacijske mjere za zaštitu vaših podataka od neovlaštenog pristupa, gubitka ili uništenja. Naša web stranica koristi SSL enkripciju za siguran prijenos podataka.`,
+    content: `Primjenjujemo odgovarajuće tehničke i organizacione mjere za zaštitu vaših podataka od neovlaštenog pristupa, gubitka ili uništenja. Naša web stranica koristi SSL enkripciju za siguran prenos podataka.`,
   },
   {
     title: 'Kolačići (Cookies)',
-    content: `Koristimo kolačiće za poboljšanje funkcionalnosti stranice i analizu posjećenosti. Možete upravljati postavkama kolačića u svom pregledniku. Detalji o korištenju kolačića dostupni su u našoj Politici kolačića.`,
+    content: `Koristimo kolačiće za poboljšanje funkcionalnosti stranice i analizu posjećenosti. Postavkama kolačića možete upravljati u svom pregledaču. Detalji o korištenju kolačića dostupni su u našoj Politici kolačića.`,
   },
   {
     title: 'Kontakt i pritužbe',
-    content: `Za sva pitanja u vezi s obradom vaših osobnih podataka možete nas kontaktirati na: info@bioclinica.swp ili pisanim putem na adresu sjedišta tvrtke. Pravo je podnijeti pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, www.azop.hr.`,
+    content: `Za sva pitanja u vezi s obradom vaših ličnih podataka možete nas kontaktirati na: adriaticsm@sunwavepharma.com ili pisanim putem na adresu sjedišta kompanije. Imate pravo podnijeti pritužbu nadležnoj agenciji za zaštitu ličnih podataka.`,
   },
   {
     title: 'Izmjene Politike privatnosti',
-    content: `Zadržavamo pravo izmjene ove Politike privatnosti. O svim značajnim izmjenama bit ćete obaviješteni putem e-pošte ili obavijesti na web stranici. Datum posljednje izmjene: 1. siječnja 2025.`,
+    content: `Zadržavamo pravo izmjene ove Politike privatnosti. O svim značajnim izmjenama bit ćete obaviješteni putem e-pošte ili obavještenja na web stranici. Datum posljednje izmjene: 1. januar 2025.`,
   },
 ];
 
@@ -114,7 +114,7 @@ export default function PrivacyPage() {
                 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}>
                 Politika privatnosti
               </h1>
-              <p className="text-white/50 text-[14px] font-normal">Posljednja izmjena: 1. siječnja 2025.</p>
+              <p className="text-white/50 text-[14px] font-normal">Posljednja izmjena: 1. januar 2025.</p>
             </motion.div>
           </div>
         </section>

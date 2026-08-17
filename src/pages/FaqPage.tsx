@@ -1,4 +1,4 @@
-import { Mail, Phone } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
@@ -7,13 +7,13 @@ import PageCTA from '../components/PageCTA';
 import { Reveal, StaggerGroup, StaggerItem, AccordionItem } from '../components/motion';
 
 const faqs = [
-  { question: 'Jesu li vaši proizvodi 100% prirodni?', answer: 'Da, svi Bioclinica SWP proizvodi napravljeni su od pažljivo odabranih prirodnih sastojaka i ne sadrže umjetne dodatke, boje ni konzervanse koje tijelo ne može preraditi.' },
-  { question: 'Gdje mogu kupiti vaše proizvode?', answer: 'Naši proizvodi dostupni su putem ovlaštenih online ljekarni i specijaliziranih trgovina. Narudžbe je moguće izvršiti putem njihovih webshopova uz brzu dostavu.' },
-  { question: 'Smijem li kombinirati više različitih dodataka prehrani?', answer: 'Većina naših proizvoda može se sigurno kombinirati jer su dizajnirani da djeluju sinergijski. Ipak, preporučujemo da se prije istovremenog uzimanja više različitih preparata posavjetujete sa svojim liječnikom.' },
-  { question: 'Koliko dugo trebam uzimati proizvode da vidim rezultate?', answer: 'Vrijeme do uočavanja prvih rezultata varira od osobe do osobe. Za optimalne i dugotrajne rezultate preporučuje se kontinuirano uzimanje u trajanju od najmanje 3 mjeseca.' },
-  { question: 'Jesu li proizvodi sigurni za trudnice i dojilje?', answer: 'Zbog osjetljivosti ovog razdoblja, trudnicama i dojiljama uvijek savjetujemo konzultaciju s nadležnim ginekologom ili ljekarnikom prije uvođenja bilo kakvih novih dodataka prehrani.' },
+  { question: 'Jesu li vaši proizvodi 100% prirodni?', answer: 'Da, svi Bioclinica SWP proizvodi napravljeni su od pažljivo odabranih prirodnih sastojaka i ne sadrže vještačke dodatke, boje ni konzervanse koje tijelo ne može preraditi.' },
+  { question: 'Gdje mogu kupiti vaše proizvode?', answer: 'Naši proizvodi dostupni su putem ovlaštenih online apoteka i specijalizovanih prodavnica. Narudžbe je moguće izvršiti putem njihovih web shopova uz brzu dostavu.' },
+  { question: 'Smijem li kombinovati više različitih dodataka ishrani?', answer: 'Većina naših proizvoda može se sigurno kombinovati jer su razvijeni da djeluju sinergijski. Ipak, preporučujemo da se prije istovremenog uzimanja više različitih preparata posavjetujete sa svojim ljekarom.' },
+  { question: 'Koliko dugo trebam uzimati proizvode da vidim rezultate?', answer: 'Vrijeme uočavanja prvih rezultata varira od osobe do osobe. Za optimalne i dugotrajne rezultate preporučuje se kontinuirano uzimanje u trajanju od najmanje 3 mjeseca.' },
+  { question: 'Jesu li proizvodi sigurni za trudnice i dojilje?', answer: 'Zbog osjetljivosti ovog razdoblja, trudnicama i dojiljama uvijek savjetujemo konsultaciju s nadležnim ginekologom ili farmaceutom prije uvođenja bilo kakvih novih dodataka ishrani.' },
   { question: 'Koje je optimalno vrijeme za konzumaciju kapsula?', answer: 'Generalna preporuka je uzimanje kapsula uz obrok, uz čašu vode, jer se tako maksimizira apsorpcija aktivnih nutrijenata i smanjuje mogućnost iritacije želuca.' },
-  { question: 'Kako je najbolje čuvati proizvode?', answer: 'Sve proizvode iz Bioclinica linije najbolje je čuvati u originalnom pakiranju na suhom i tamnom mjestu, pri temperaturi do 25°C, strogo izvan dohvata male djece.' },
+  { question: 'Kako je najbolje čuvati proizvode?', answer: 'Sve proizvode iz Bioclinica linije najbolje je čuvati u originalnom pakovanju na suhom i tamnom mjestu, pri temperaturi do 25°C, strogo izvan dohvata male djece.' },
 ];
 
 export default function FaqPage() {
@@ -53,8 +53,7 @@ export default function FaqPage() {
                   <div className="flex flex-col gap-4 rounded-[1.25rem] p-6 border border-gray-100 bg-white"
                     style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.05)' }}>
                     {[
-                      { Icon: Mail, label: 'Email', value: 'info@bioclinica.ba', href: 'mailto:info@bioclinica.ba' },
-                      { Icon: Phone, label: 'Telefon', value: '+387 33 123 456', href: 'tel:+38733123456' },
+                      { Icon: Mail, label: 'Email', value: 'adriaticsm@sunwavepharma.com', href: 'mailto:adriaticsm@sunwavepharma.com' },
                     ].map(({ Icon, label, value, href }, i) => (
                       <div key={label}>
                         {i > 0 && <div className="h-px bg-gray-100 mb-4" />}

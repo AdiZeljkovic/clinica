@@ -1,51 +1,11 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageSeo from '../components/PageSeo';
 import PageHero from '../components/PageHero';
-import { Reveal, StaggerGroup, StaggerItem } from '../components/motion';
+import { Reveal } from '../components/motion';
 import { api } from '../lib/api';
-
-const INFO = [
-  {
-    Icon: MapPin,
-    label: 'Sjedište',
-    content: <>Bioclinica SWP d.o.o.<br />Hrasnička cesta 15<br />71000 Sarajevo, BiH</>,
-  },
-  {
-    Icon: Phone,
-    label: 'Telefon',
-    content: (
-      <a href="tel:+38733123456" className="block font-black text-[#111] hover:text-[#e5252a] transition-colors text-[17px]">
-        +387 33 123 456
-      </a>
-    ),
-  },
-  {
-    Icon: Mail,
-    label: 'Email',
-    content: (
-      <a href="mailto:info@bioclinica.ba" className="block font-black text-[#111] hover:text-[#e5252a] transition-colors text-[17px]">
-        info@bioclinica.ba
-      </a>
-    ),
-  },
-  {
-    Icon: Clock,
-    label: 'Radno vrijeme',
-    content: (
-      <div className="flex flex-col gap-1">
-        {[['Pon – Pet', '08:00 – 16:00'], ['Subota', 'Zatvoreno'], ['Nedjelja', 'Zatvoreno']].map(([d, t]) => (
-          <div key={d} className="flex justify-between gap-8 text-[14px]">
-            <span className="text-gray-400 font-medium">{d}</span>
-            <span className={`font-bold ${t === 'Zatvoreno' ? 'text-[#e5252a]' : 'text-[#111]'}`}>{t}</span>
-          </div>
-        ))}
-      </div>
-    ),
-  },
-];
 
 export default function ContactPage() {
   const [form, setForm] = useState({ first_name: '', last_name: '', email: '', subject: '', message: '' });
@@ -90,13 +50,12 @@ export default function ContactPage() {
           ]}
         />
 
-        {/* ── FORMA + INFO ── */}
+        {/* ── FORMA ── */}
         <section className="py-14 sm:py-24 bg-white">
-          <div className="max-w-[88rem] mx-auto px-5 sm:px-14 xl:px-20">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
+          <div className="max-w-3xl mx-auto px-5 sm:px-14">
 
               {/* Forma */}
-              <Reveal className="lg:col-span-7">
+              <Reveal>
                 <div className="bg-white rounded-[1.5rem] p-6 sm:p-10 border border-gray-100"
                   style={{ boxShadow: '0 4px 40px rgba(0,0,0,0.06)' }}>
                   <h2 className="font-black text-[#111] mb-8 tracking-[-0.03em]"
@@ -156,25 +115,6 @@ export default function ContactPage() {
                 </div>
               </Reveal>
 
-              {/* Info kartice */}
-              <StaggerGroup stagger={0.06} className="lg:col-span-5 flex flex-col gap-4">
-                {INFO.map(({ Icon, label, content }) => (
-                  <StaggerItem key={label} y={20}>
-                    <div className="group flex items-start gap-5 p-6 rounded-[1.25rem] bg-white border border-gray-100 hover:border-[#e5252a]/20 hover:shadow-[0_4px_32px_rgba(229,37,42,0.08)] transition-all duration-300">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0
-                        bg-[#e5252a]/8 group-hover:bg-[#e5252a] transition-colors duration-300">
-                        <Icon size={19} className="text-[#e5252a] group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">{label}</p>
-                        <div className="text-[14px] leading-relaxed text-gray-600">{content}</div>
-                      </div>
-                    </div>
-                  </StaggerItem>
-                ))}
-              </StaggerGroup>
-
-            </div>
           </div>
         </section>
 

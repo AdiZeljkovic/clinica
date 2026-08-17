@@ -67,7 +67,7 @@ export default function Footer() {
                 { label: 'Proizvodi', to: '/#proizvodi' },
                 { label: 'Kategorije', to: '/#kategorije' },
                 { label: 'O nama', to: '/about' },
-                { label: 'Savjeti & Znanje', to: '/news' },
+                { label: 'Savjeti & Novosti', to: '/news' },
                 { label: 'Kontakt', to: '/contact' },
               ].map(({ label, to }) => (
                 <li key={label}>

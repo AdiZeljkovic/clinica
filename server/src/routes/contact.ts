@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { query } from '../db/connection.js';
 import { authMiddleware } from '../middleware/auth.js';
+import { sendContactNotification } from '../lib/mailer.js';
 
 const router = Router();
 
@@ -23,6 +24,8 @@ router.post('/', async (req: Request, res: Response) => {
       'INSERT INTO contact_messages (first_name, last_name, email, subject, message) VALUES (?, ?, ?, ?, ?)',
       [first_name, last_name, email, subject || null, message]
     );
+    // mail notifikacija — fire-and-forget, ne blokira odgovor
+    sendContactNotification({ first_name, last_name, email, subject, message });
     res.status(201).json({ message: 'Vaša poruka je uspješno poslana.' });
   } catch (err) {
     console.error(err);

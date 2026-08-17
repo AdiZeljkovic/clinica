@@ -66,8 +66,6 @@ const HERO_KV_SLIDES = [
       { src: '/slike/Pictograms_Warming effect .png', label: 'Efekt topline' },
       { src: '/slike/Pictograms_Circulation.png', label: 'Bolja prokrvljenost' },
       { src: '/slike/Pictograms_Muscles joints.svg', label: 'Mišići i zglobovi' },
-      { src: '/slike/Pictograms_Application zone .png', label: 'Dermatološki testirano' },
-      { src: '/slike/Pictograms_Joint zone (rheumatic) .png', label: 'Quality guarantee' },
     ],
   },
   {
@@ -81,7 +79,6 @@ const HERO_KV_SLIDES = [
       { src: '/slike/Pictograms_Joints_ bones _ muscles .png', label: 'Zglobovi, kosti i mišići' },
       { src: '/slike/Pictograms_Mobility.svg', label: 'Pokretljivost' },
       { src: '/slike/Pictograms_Connective tissue .png', label: 'Vezivno tkivo' },
-      { src: '/slike/Pictograms_After-sport relaxation .png', label: 'Oporavak' },
     ],
   },
   {
@@ -94,7 +91,7 @@ const HERO_KV_SLIDES = [
     pictograms: [
       { src: '/slike/Pictograms_Pumpkin seed.svg', label: 'Sjeme bundeve' },
       { src: "/slike/Pictograms_Men's health .png", label: 'Muško zdravlje' },
-      { src: '/slike/Pictograms_Urinary function .png', label: 'Urinarni sustav' },
+      { src: '/slike/Pictograms_Urinary function .png', label: 'Urinarni sistem' },
       { src: '/slike/Pictograms_Zinc.png', label: 'Cink' },
     ],
   },
@@ -190,7 +187,7 @@ export default function Home() {
           .bg-trust      { background-position: 18% center !important; }
         }
       `}</style>
-      <PageSeo pageKey="home" fallbackTitle="Bioclinica - Prirodni dodaci prehrani" fallbackDescription="Otkrijte Bioclinica liniju prirodnih dodataka prehrani za zdravlje zglobova, prostate i mršavljenje." />
+      <PageSeo pageKey="home" fallbackTitle="Bioclinica - Prirodni dodaci ishrani" fallbackDescription="Otkrijte Bioclinica liniju prirodnih dodataka ishrani za zdravlje zglobova, prostate i mršavljenje." />
       <Header />
       <main className="flex-grow">
 
@@ -633,7 +630,7 @@ export default function Home() {
             {/* 3 kartice */}
             <div className="grid md:grid-cols-3 gap-6">
               {blogPosts.slice(0, 3).map((post, i) => {
-                const tags = ['Zdravlje', 'Prehrana', 'Imunitet'];
+                const tags = ['Zdravlje', 'Ishrana', 'Imunitet'];
                 const tag = post.category || tags[i % tags.length];
                 return (
                   <Reveal key={post.id} delay={i * 0.08}>

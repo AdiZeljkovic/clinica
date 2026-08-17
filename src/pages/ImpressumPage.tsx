@@ -8,51 +8,31 @@ import { Reveal } from '../components/motion';
 
 const sections = [
   {
-    title: 'Podaci o tvrtki',
+    title: 'O stranici',
     content: [
-      'Naziv tvrtke: Bioclinica SWP d.o.o.',
-      'Sjedište: Radnička cesta 80, 10000 Zagreb, Hrvatska',
-      'OIB: 12345678901',
-      'MBS: 080123456',
-      'Temeljni kapital: 20.000,00 EUR (uplaćen u cijelosti)',
-      'Tvrtka je upisana u sudski registar Trgovačkog suda u Zagrebu.',
+      'Ova web stranica je promotivna stranica brenda Bioclinica SWP.',
+      'Vlasnik brenda i stranice: Sun Wave Pharma.',
+      'Stranica ne prodaje proizvode — proizvodi su dostupni putem ovlaštenih apoteka i online partnera.',
     ],
   },
   {
-    title: 'Kontakt podaci',
+    title: 'Kontakt',
     content: [
-      'E-mail: info@bioclinica.swp',
-      'Telefon: 0800 123 456 (besplatni poziv)',
-      'Telefon: +385 1 4800 801',
-      'Radno vrijeme: Ponedjeljak – Petak, 08:00 – 16:00 h',
-    ],
-  },
-  {
-    title: 'Zakonski zastupnici',
-    content: [
-      'Direktor: Ivan Horvat, OIB: 98765432109',
-    ],
-  },
-  {
-    title: 'Nadležno tijelo',
-    content: [
-      'Nadležno tijelo za nadzor nad poslovanjem društva je Ministarstvo zdravlja Republike Hrvatske i Hrvatska agencija za lijekove i medicinske proizvode (HALMED).',
-      'Adresa: Ksaverska cesta 4, 10000 Zagreb',
-      'Web: www.halmed.hr',
+      'E-mail: adriaticsm@sunwavepharma.com',
     ],
   },
   {
     title: 'Autorska prava',
     content: [
-      'Svi sadržaji na ovoj web stranici, uključujući tekst, slike, grafike, logotipe i druge materijale, vlasništvo su tvrtke Bioclinica SWP d.o.o. ili su korišteni uz odobrenje nositelja prava.',
-      'Svako neovlašteno kopiranje, reproduciranje ili distribucija sadržaja strogo je zabranjeno bez pisanog odobrenja vlasnika.',
+      'Svi sadržaji na ovoj web stranici, uključujući tekst, slike, grafike, logotipe i druge materijale, vlasništvo su kompanije Sun Wave Pharma ili se koriste uz odobrenje nosioca prava.',
+      'Svako neovlašteno kopiranje, reprodukovanje ili distribucija sadržaja strogo je zabranjeno bez pisanog odobrenja vlasnika.',
     ],
   },
   {
     title: 'Odricanje od odgovornosti',
     content: [
       'Informacije objavljene na ovoj web stranici namijenjene su isključivo u informativne svrhe i ne mogu zamijeniti stručni medicinski savjet, dijagnozu ili liječenje.',
-      'Bioclinica SWP d.o.o. ne snosi odgovornost za eventualne pogreške ili propuste u sadržaju, niti za štetu koja može nastati korištenjem ovih informacija.',
+      'Sun Wave Pharma ne snosi odgovornost za eventualne greške ili propuste u sadržaju, niti za štetu koja može nastati korištenjem ovih informacija.',
     ],
   },
 ];

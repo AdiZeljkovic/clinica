@@ -9,62 +9,62 @@ import { Reveal } from '../components/motion';
 const sections = [
   {
     title: 'Opće odredbe',
-    content: `Ovi Uvjeti korištenja reguliraju upotrebu web stranice Bioclinica SWP d.o.o. (dalje: "Stranica") i sve usluge koje pruža Bioclinica SWP d.o.o. (dalje: "mi" ili "Bioclinica"). Korištenjem ove Stranice prihvaćate ove Uvjete u cijelosti. Ako se ne slažete s ovim Uvjetima, molimo vas da prestanete koristiti Stranicu.`,
+    content: `Ovi Uslovi korištenja regulišu upotrebu web stranice brenda Bioclinica SWP (dalje: "Stranica"), čiji je vlasnik kompanija Sun Wave Pharma (dalje: "mi"). Korištenjem ove Stranice prihvatate ove Uslove u cijelosti. Ako se ne slažete s ovim Uslovima, molimo vas da prestanete koristiti Stranicu.`,
   },
   {
     title: 'Informacije o proizvodima',
-    content: `Svi Bioclinica proizvodi su dodaci prehrani i nisu lijekovi. Informacije objavljene na ovoj Stranici su isključivo informativnog karaktera i ne mogu se smatrati medicinskim savjetom. Uvijek se posavjetujte s liječnikom ili ljekarnarom prije upotrebe bilo kojeg dodatka prehrani, posebno ako uzimate lijekove ili imate zdravstvene tegobe.`,
+    content: `Svi Bioclinica proizvodi su dodaci ishrani i nisu lijekovi. Informacije objavljene na ovoj Stranici isključivo su informativnog karaktera i ne mogu se smatrati medicinskim savjetom. Uvijek se posavjetujte sa ljekarom ili farmaceutom prije upotrebe bilo kojeg dodatka ishrani, posebno ako uzimate lijekove ili imate zdravstvene tegobe.`,
   },
   {
     title: 'Narudžbe i kupovina',
     bullets: [
-      'Proizvodi Bioclinica dostupni su isključivo putem ovlaštenih online partnera i ljekarni.',
-      'Bioclinica SWP d.o.o. ne prodaje proizvode izravno putem ove web stranice.',
-      'Za narudžbe, uvjete isporuke i reklamacije obratite se ovlaštenom prodajnom partneru.',
-      'Cijene i dostupnost proizvoda mogu se razlikovati ovisno o prodajnom kanalu.',
+      'Bioclinica proizvodi dostupni su isključivo putem ovlaštenih online partnera i apoteka.',
+      'Sun Wave Pharma ne prodaje proizvode direktno putem ove web stranice.',
+      'Za narudžbe, uslove isporuke i reklamacije obratite se ovlaštenom prodajnom partneru.',
+      'Cijene i dostupnost proizvoda mogu se razlikovati zavisno od prodajnog kanala.',
     ],
   },
   {
     title: 'Intelektualno vlasništvo',
-    content: `Svi sadržaji na Stranici, uključujući ali ne ograničavajući se na tekst, slike, grafike, logotipove, ikone i softver, zaštićeni su autorskim pravom i vlasništvo su Bioclinica SWP d.o.o. ili su korišteni uz odgovarajuću licencu. Nije dopušteno kopiranje, reproduciranje, distribucija ili mijenjanje sadržaja bez pisanog odobrenja.`,
+    content: `Svi sadržaji na Stranici, uključujući ali ne ograničavajući se na tekst, slike, grafike, logotipe, ikone i softver, zaštićeni su autorskim pravom i vlasništvo su kompanije Sun Wave Pharma ili se koriste uz odgovarajuću licencu. Nije dozvoljeno kopiranje, reprodukovanje, distribucija ili mijenjanje sadržaja bez pisanog odobrenja.`,
   },
   {
     title: 'Ograničenje odgovornosti',
     bullets: [
-      'Bioclinica ne jamči da će Stranica biti dostupna bez prekida ili pogrešaka.',
+      'Ne garantujemo da će Stranica biti dostupna bez prekida ili grešaka.',
       'Nismo odgovorni za eventualnu štetu nastalu korištenjem ili nemogućnošću korištenja Stranice.',
-      'Veze na vanjske web stranice pružaju se isključivo radi informiranja; ne preuzimamo odgovornost za njihov sadržaj.',
+      'Linkovi na vanjske web stranice pružaju se isključivo radi informisanja; ne preuzimamo odgovornost za njihov sadržaj.',
       'Rezultati upotrebe proizvoda mogu se razlikovati od osobe do osobe.',
     ],
   },
   {
     title: 'Zabranjene radnje',
     bullets: [
-      'Korištenje Stranice u nezakonite svrhe ili na način koji krši ove Uvjete',
-      'Pokušaj neovlaštenog pristupa sustavima ili bazama podataka',
+      'Korištenje Stranice u nezakonite svrhe ili na način koji krši ove Uslove',
+      'Pokušaj neovlaštenog pristupa sistemima ili bazama podataka',
       'Objavljivanje lažnih, obmanjujućih ili uvredljivih sadržaja',
-      'Distribucija računalnih virusa ili zlonamjernog softvera',
-      'Prikupljanje osobnih podataka korisnika bez njihovog pristanka',
+      'Distribucija računarskih virusa ili zlonamjernog softvera',
+      'Prikupljanje ličnih podataka korisnika bez njihove saglasnosti',
     ],
   },
   {
     title: 'Mjerodavno pravo i nadležnost',
-    content: `Na ove Uvjete primjenjuje se pravo Republike Hrvatske. Za sve sporove koji mogu nastati iz korištenja ove Stranice, nadležan je stvarno nadležni sud u Zagrebu. Ako ste potrošač s prebivalištem u drugoj državi EU, možete imati pravo koristiti platformu za online rješavanje sporova (ORS platforma Europske komisije).`,
+    content: `Na ove Uslove primjenjuje se pravo Bosne i Hercegovine. Za sve sporove koji mogu nastati iz korištenja ove Stranice nadležan je stvarno nadležni sud u Sarajevu.`,
   },
   {
-    title: 'Izmjene Uvjeta korištenja',
-    content: `Bioclinica SWP d.o.o. zadržava pravo izmjene ovih Uvjeta u bilo kojem trenutku. Izmijenjeni Uvjeti stupaju na snagu objavom na Stranici. Nastavak korištenja Stranice nakon objave izmjena smatra se prihvaćanjem novih Uvjeta. Datum posljednje izmjene: 1. siječnja 2025.`,
+    title: 'Izmjene Uslova korištenja',
+    content: `Sun Wave Pharma zadržava pravo izmjene ovih Uslova u bilo kojem trenutku. Izmijenjeni Uslovi stupaju na snagu objavom na Stranici. Nastavak korištenja Stranice nakon objave izmjena smatra se prihvatanjem novih Uslova. Datum posljednje izmjene: 1. januar 2025.`,
   },
   {
     title: 'Kontakt',
-    content: `Za sva pitanja u vezi s ovim Uvjetima možete nas kontaktirati: e-mail: info@bioclinica.swp, telefon: 0800 123 456, adresa: Radnička cesta 80, 10000 Zagreb, Hrvatska.`,
+    content: `Za sva pitanja u vezi s ovim Uslovima možete nas kontaktirati putem e-maila: adriaticsm@sunwavepharma.com.`,
   },
 ];
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
-      <PageSeo fallbackTitle="Uvjeti korištenja - Bioclinica" />
+      <PageSeo fallbackTitle="Uslovi korištenja - Bioclinica" />
       <Header />
 
       <main className="flex-grow">
@@ -88,7 +88,7 @@ export default function TermsPage() {
             <nav className="flex items-center gap-2 text-[11px] font-bold text-white/40 uppercase tracking-widest mb-10">
               <Link to="/" className="hover:text-white/70 transition-colors">Početna</Link>
               <ChevronRight size={12} />
-              <span className="text-white/70">Uvjeti korištenja</span>
+              <span className="text-white/70">Uslovi korištenja</span>
             </nav>
 
             <motion.div
@@ -100,9 +100,9 @@ export default function TermsPage() {
               </div>
               <h1 className="font-black text-white tracking-[-0.04em] leading-[1.0] mb-4"
                 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}>
-                Uvjeti korištenja
+                Uslovi korištenja
               </h1>
-              <p className="text-white/50 text-[14px] font-normal">Posljednja izmjena: 1. siječnja 2025.</p>
+              <p className="text-white/50 text-[14px] font-normal">Posljednja izmjena: 1. januar 2025.</p>
             </motion.div>
           </div>
         </section>

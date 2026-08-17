@@ -17,7 +17,7 @@ export default function AboutPage() {
         <PageHero
           label="Upoznajte Bioclinicu"
           title={<>Priroda kao izvor<br /><span style={{ opacity: 0.5 }}>vašeg zdravlja.</span></>}
-          subtitle="Bioclinica SWP posvećena je vašem zdravlju kroz pažljivo odabrane, prirodne dodatke prehrani."
+          subtitle="Bioclinica SWP posvećena je vašem zdravlju kroz pažljivo odabrane, prirodne dodatke ishrani."
           crumbs={[
             { label: 'Početna', to: '/' },
             { label: 'O nama' },
@@ -75,9 +75,9 @@ export default function AboutPage() {
                 <StaggerGroup stagger={0.08} className="flex flex-col gap-3 pt-4">
                   {[
                     'Samo provjereni i prirodni sastojci.',
-                    'Proizvodnja pod strogim smjernicama kvalitete.',
-                    'Dizajnirano za maksimalnu apsorpciju.',
-                    'Inovacije temeljene na znanstvenim istraživanjima.',
+                    'Proizvodnja po strogim standardima kvaliteta.',
+                    'Formulisano za maksimalnu apsorpciju.',
+                    'Inovacije zasnovane na naučnim istraživanjima.',
                   ].map((item, i) => (
                     <StaggerItem key={i} y={12}>
                       <div className="flex items-center gap-3">
@@ -109,9 +109,9 @@ export default function AboutPage() {
 
             <StaggerGroup stagger={0.08} className="grid sm:grid-cols-3 gap-5">
               {[
-                { Icon: Leaf, title: 'Prirodno porijeklo', desc: 'Koristimo samo najkvalitetnije biljne ekstrakte čija je učinkovitost potvrđena tradicijom i naukom.' },
-                { Icon: ShieldCheck, title: 'Kontrola kvalitete', desc: 'Svi naši proizvodi prolaze stroge analize i kontrole kako bismo osigurali sigurnost i čistoću.' },
-                { Icon: FlaskConical, title: 'Inovativne formule', desc: 'Spajamo tradicionalno znanje s modernom farmaceutskom tehnologijom za najbolje rezultate.' },
+                { Icon: Leaf, title: 'Prirodno porijeklo', desc: 'Koristimo samo najkvalitetnije biljne ekstrakte čija je efikasnost potvrđena tradicijom i naukom.' },
+                { Icon: ShieldCheck, title: 'Kontrola kvaliteta', desc: 'Svi naši proizvodi prolaze stroge analize i kontrole kako bismo osigurali sigurnost i čistoću.' },
+                { Icon: FlaskConical, title: 'Inovativne formule', desc: 'Spajamo tradicionalno znanje sa modernom farmaceutskom tehnologijom za najbolje rezultate.' },
               ].map(({ Icon, title, desc }) => (
                 <StaggerItem key={title}>
                   <div className="group flex flex-col p-7 sm:p-8 rounded-[1.5rem] bg-white border border-gray-100 hover:shadow-[0_8px_40px_rgba(229,37,42,0.10)] hover:-translate-y-1 transition-all duration-300 cursor-default h-full">

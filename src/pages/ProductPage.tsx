@@ -31,7 +31,7 @@ const PICTOGRAM_RULES: [RegExp, string][] = [
   [/njeguje|štiti/i,             '/slike/Pictograms_ Skin care - perfusion .png'],
   [/cirkulacij|prokrvljenost/i,  '/slike/Pictograms_Circulation.png'],
   [/stopala/i,                   '/slike/Pictograms_Tired legs relief .png'],
-  [/otečen|teške noge/i,         '/slike/Pictograms_Tired - heavy legs .png'],
+  [/otečen|teške noge/i,         '/slike/Pictograms_Tired legs relief .png'],
   [/tetiv|ligament/i,            '/slike/Pictograms_Tendon _ ligament elasticity.png'],
   [/vezivn/i,                    '/slike/Pictograms_Connective tissue .png'],
   [/regeneracij/i,               '/slike/Pictograms_Muscles joints.svg'],

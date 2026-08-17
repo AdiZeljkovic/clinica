@@ -24,7 +24,7 @@ export default function NewsListPage() {
         <PageHero
           label="Aktualno iz Bioclinice"
           title={<>Savjeti &amp;<br /><span style={{ opacity: 0.5 }}>Novosti.</span></>}
-          subtitle="Otkrijte najnovije članke o zdravlju, prehrani i inovativnim rješenjima iz prirode."
+          subtitle="Otkrijte najnovije članke o zdravlju, ishrani i inovativnim rješenjima iz prirode."
           crumbs={[
             { label: 'Početna', to: '/' },
             { label: 'Novosti' },

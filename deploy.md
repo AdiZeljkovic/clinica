@@ -27,6 +27,8 @@ mapirane portove — sav promet ide kroz nginx u web/admin kontejnerima.
 | `ADMIN_EMAIL` | ne | Email admin korisnika (samo pri kreiranju) |
 | `CORS_ORIGIN` | ne | Zarezom odvojeni origini (za direktan pristup API-ju; kroz nginx proxy nije potreban) |
 | `SITE_URL` | ne | Javni URL frontenda — koristi se kao build arg za admin preview `/slike/...` putanja |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_SECURE` / `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` | preporučeno | SMTP za kontakt formu — bez `SMTP_HOST` poruke se čuvaju samo u bazi (admin panel) |
+| `CONTACT_EMAIL` | ne | Kome stižu poruke s kontakt forme (default: adriaticsm@sunwavepharma.com) |
 
 `VITE_API_URL` je fiksiran na `/api` u composeu (peče se u build) jer nginx
 u istom kontejneru proxyja `/api` na `bioclinica-api`.

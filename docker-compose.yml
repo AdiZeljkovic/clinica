@@ -49,6 +49,14 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       UPLOAD_DIR: /app/uploads
+      # SMTP za kontakt formu (bez ovoga poruke idu samo u bazu/admin)
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      CONTACT_EMAIL: ${CONTACT_EMAIL:-adriaticsm@sunwavepharma.com}
     volumes:
       - uploads:/app/uploads
     depends_on:

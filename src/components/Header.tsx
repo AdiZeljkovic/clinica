@@ -55,7 +55,7 @@ export default function Header() {
               <Link to="/uvjeti"
                 className="transition-colors duration-200 hover:text-white"
                 style={{ color: 'inherit' }}>
-                Uvjeti
+                Uslovi
               </Link>
             </div>
             <div className="flex items-center gap-4" style={{ color: 'rgba(255,255,255,0.45)' }}>

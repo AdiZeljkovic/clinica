@@ -39,7 +39,7 @@ export default function CategoryPage() {
         <PageHero
           label={isAll ? 'Naši proizvodi' : 'Kategorija'}
           title={isAll ? 'Svi proizvodi' : category.name}
-          subtitle={isAll ? 'Pregledajte kompletnu Bioclinica liniju prirodnih dodataka prehrani.' : ((category as any).description || `Pregledajte sve proizvode iz kategorije ${category.name}.`)}
+          subtitle={isAll ? 'Pregledajte kompletnu Bioclinica liniju prirodnih dodataka ishrani.' : ((category as any).description || `Pregledajte sve proizvode iz kategorije ${category.name}.`)}
           crumbs={[
             { label: 'Početna', to: '/' },
             { label: isAll ? 'Svi proizvodi' : category.name },
