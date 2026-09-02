@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -)",
+      "Bash(cp 'C:/Users/adize/Downloads/Urasan Forte 60_2560×1200px \\(1\\).png' C:/Users/adize/AppData/Local/Temp/claude/c--Users-adize-Documents-Projekti-Bioclinica/f6afd5d0-b025-436e-bc43-b4d8224b83b2/scratchpad/u60-desktop.png)",
+      "Bash(cp 'C:/Users/adize/Downloads/Urasan Forte_60_1080x1400px \\(1\\).png' C:/Users/adize/AppData/Local/Temp/claude/c--Users-adize-Documents-Projekti-Bioclinica/f6afd5d0-b025-436e-bc43-b4d8224b83b2/scratchpad/u60-mobile.png)",
+      "Bash(cp 'C:/Users/adize/Downloads/Urasan Forte_30_1080x1400px \\(1\\).png' C:/Users/adize/AppData/Local/Temp/claude/c--Users-adize-Documents-Projekti-Bioclinica/f6afd5d0-b025-436e-bc43-b4d8224b83b2/scratchpad/u30-mobile.png)",
+      "Bash(cp \"C:/Users/adize/Downloads/Urasan Forte 60_2560×1200px \\(1\\).png\" \"public/slike/hero/hero-desktop-urasan-forte.png\")",
+      "Bash(cp \"C:/Users/adize/Downloads/Urasan Forte_60_1080x1400px \\(1\\).png\" \"public/slike/hero/hero-mobile-urasan-forte.png\")",
+      "Bash(cp \"C:/Users/adize/Downloads/Urasan Forte_30_1080x1400px \\(1\\).png\" \"public/slike/hero/hero-mobile-urasan-forte-30.png\")",
+      "Bash(curl -s http://localhost:4000/api/health)",
+      "Bash(curl -s -o /dev/null -w \"frontend: %{http_code}\\\\n\" http://localhost:3002)",
+      "Bash(curl -s -o /dev/null -w \"admin: %{http_code}\\\\n\" http://localhost:3001)",
+      "Bash(curl -s -o /dev/null -w \"nova slika: %{http_code}\\\\n\" \"http://localhost:3002/slike/hero/hero-desktop-urasan-forte.png\")",
+      "Bash(curl -s -o /dev/null -w \"frontend 3002: %{http_code}\\\\n\" http://localhost:3002)",
+      "Bash(curl -s -o /dev/null -w \"admin 3001: %{http_code}\\\\n\" http://localhost:3001)"
+    ]
+  }
+}
