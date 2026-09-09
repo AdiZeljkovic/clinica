@@ -249,15 +249,15 @@ export default function Home() {
                 exit="exit"
                 className="w-full px-6 sm:px-10">
                 <div className="max-w-[90rem] mx-auto">
-                  <div className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-[600px] mx-auto lg:mx-0 pointer-events-auto">
+                  <div className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-[600px] lg:max-w-[760px] mx-auto lg:mx-0 pointer-events-auto">
 
                     <motion.span variants={heroItem}
-                      className="text-[11px] font-black uppercase tracking-[0.22em] mb-4 lg:mb-5 block"
+                      className="text-[11px] lg:text-[15px] font-black uppercase tracking-[0.22em] mb-4 lg:mb-6 block"
                       style={{ color: slides[slide].accentColor }}>
                       {slides[slide].tagline}
                     </motion.span>
 
-                    <div className="mb-5 lg:mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2.4rem, 9vw, 4.8rem)' }}>
+                    <div className="mb-5 lg:mb-8" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2.6rem, 5.5vw, 7rem)' }}>
                       <div className="overflow-hidden">
                         <motion.div variants={heroLine} className="font-black text-[#111] tracking-[-0.03em] leading-[0.95]">
                           {slides[slide].name1}
@@ -272,26 +272,25 @@ export default function Home() {
                     </div>
 
                     <motion.p variants={heroItem}
-                      className="hidden lg:block text-gray-700 leading-[1.7] mb-7 lg:mb-8 font-normal max-w-[340px]"
-                      style={{ fontSize: '1rem' }}>
+                      className="hidden lg:block text-gray-700 leading-[1.65] mb-8 lg:mb-10 font-normal max-w-[560px] text-[17px] xl:text-[20px]">
                       {slides[slide].sub}
                     </motion.p>
 
                     <motion.div variants={heroItem}
-                      className="hidden lg:flex items-start justify-center lg:justify-start gap-5 sm:gap-6 mb-8 lg:mb-9">
+                      className="hidden lg:flex items-start justify-center lg:justify-start gap-6 xl:gap-8 mb-9 lg:mb-11">
                       {slides[slide].pictograms.map((pic, i) => (
-                        <div key={i} className="flex flex-col items-center gap-2 text-center" style={{ maxWidth: 84 }}>
-                          <img src={pic.src} alt={pic.label} className="w-12 h-12 object-contain" />
-                          <span className="text-[10px] text-gray-600 font-semibold leading-tight">{pic.label}</span>
+                        <div key={i} className="flex flex-col items-center gap-2.5 text-center" style={{ maxWidth: 110 }}>
+                          <img src={pic.src} alt={pic.label} className="w-14 h-14 xl:w-[68px] xl:h-[68px] object-contain" />
+                          <span className="text-[11px] xl:text-[12.5px] text-gray-600 font-semibold leading-tight">{pic.label}</span>
                         </div>
                       ))}
                     </motion.div>
 
                     <motion.div variants={heroItem}>
                       <Link to={`/product/${slides[slide].product_id}`}
-                        className="inline-flex items-center gap-3 h-[52px] px-8 text-white font-bold text-[13px] uppercase tracking-[0.08em] rounded-full hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
+                        className="inline-flex items-center gap-3 h-[52px] lg:h-[62px] px-8 lg:px-11 text-white font-bold text-[13px] lg:text-[15px] uppercase tracking-[0.08em] rounded-full hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
                         style={{ background: slides[slide].accentColor, boxShadow: `0 8px 28px ${slides[slide].glow}` }}>
-                        Kupi odmah <ArrowRight size={14} />
+                        Kupi odmah <ArrowRight size={16} />
                       </Link>
                     </motion.div>
                   </div>
